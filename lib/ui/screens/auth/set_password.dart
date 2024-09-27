@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/auth/set_password.dart';
+import 'package:task_mate/ui/screens/auth/forgot_password_pin_verification.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class ForgotPasswordPinVerification extends StatelessWidget {
-  const ForgotPasswordPinVerification({super.key});
+class SetPassword extends StatelessWidget {
+  const SetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,14 @@ class ForgotPasswordPinVerification extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Pin Verification",
+                    "Set Password",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const SizedBox(
                     height: 05,
                   ),
                   Text(
-                    "A 6-digit verification pin has been sent to your email address.",
+                    "Minimum length password: 8 characters with a combination of letters and numbers.",
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!
@@ -43,18 +43,11 @@ class ForgotPasswordPinVerification extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SetPassword(),
-                          ),
-                        );
-                      },
+                      onPressed: () {},
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Text(
-                          'Verify',
+                          'Confirm',
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium!
@@ -81,7 +74,14 @@ class ForgotPasswordPinVerification extends StatelessWidget {
       children: [
         TextField(
           style: Theme.of(context).textTheme.bodyLarge,
-          decoration: const InputDecoration(hintText: 'Email'),
+          decoration: const InputDecoration(hintText: 'Password'),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        TextField(
+          style: Theme.of(context).textTheme.bodyLarge,
+          decoration: const InputDecoration(hintText: 'Confirm Password'),
         ),
       ],
     );
