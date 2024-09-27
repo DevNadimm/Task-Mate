@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/auth/forgot_password_pin_verification.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
