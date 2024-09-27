@@ -18,7 +18,9 @@ class ImageBackground extends StatelessWidget {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: child,
+          body: SafeArea(
+            child: child,
+          ),
         ),
       ],
     );

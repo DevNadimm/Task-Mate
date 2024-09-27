@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/auth/sign_up_screen.dart';
+import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SignInScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Get Started With",
+                    "Join With Us",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const SizedBox(
@@ -57,7 +57,28 @@ class SignInScreen extends StatelessWidget {
       children: [
         TextField(
           style: Theme.of(context).textTheme.bodyLarge,
+          decoration: const InputDecoration(hintText: 'First Name'),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        TextField(
+          style: Theme.of(context).textTheme.bodyLarge,
+          decoration: const InputDecoration(hintText: 'Last Name'),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        TextField(
+          style: Theme.of(context).textTheme.bodyLarge,
           decoration: const InputDecoration(hintText: 'Email'),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        TextField(
+          style: Theme.of(context).textTheme.bodyLarge,
+          decoration: const InputDecoration(hintText: 'Mobile'),
         ),
         const SizedBox(
           height: 15,
@@ -72,41 +93,29 @@ class SignInScreen extends StatelessWidget {
 
   Widget _buildBottomSection(BuildContext context) {
     return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Forgot Password?',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
+          Text(
+            'Have account? ',
+            style: Theme.of(context).textTheme.titleMedium,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Don\'t have account? ',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Sign Up',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.green),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SignInScreen(),
                 ),
-              ),
-            ],
+              );
+            },
+            child: Text(
+              'Sign In',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: Colors.green),
+            ),
           ),
         ],
       ),
