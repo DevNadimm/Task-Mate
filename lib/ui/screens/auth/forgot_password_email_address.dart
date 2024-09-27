@@ -43,14 +43,7 @@ class ForgotPasswordEmailAddress extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ForgotPasswordPinVerification(),
-                          ),
-                        );
-                      },
+                      onPressed: () => _onTapNextButton(context),
                       child: const Padding(
                         padding: EdgeInsets.all(12),
                         child: Icon(Icons.double_arrow),
@@ -91,14 +84,7 @@ class ForgotPasswordEmailAddress extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SignInScreen(),
-                ),
-              );
-            },
+            onTap: () => _onTapSignIn(context),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -108,6 +94,24 @@ class ForgotPasswordEmailAddress extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _onTapSignIn(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignInScreen(),
+      ),
+    );
+  }
+
+  void _onTapNextButton(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ForgotPasswordPinVerification(),
       ),
     );
   }

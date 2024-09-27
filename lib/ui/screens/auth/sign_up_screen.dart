@@ -101,14 +101,7 @@ class SignUpScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SignInScreen(),
-                ),
-              );
-            },
+            onTap: () => _onTapSignIn(context),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -118,6 +111,15 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _onTapSignIn(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignInScreen(),
       ),
     );
   }

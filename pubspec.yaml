@@ -13,6 +13,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   http: ^1.2.2
   toast: ^0.3.0
+  pin_code_fields: ^8.0.1
 
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_mate/ui/screens/auth/set_password.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
@@ -36,21 +37,14 @@ class ForgotPasswordPinVerification extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  _textFields(context),
+                  _textField(context),
                   const SizedBox(
                     height: 15,
                   ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SetPassword(),
-                          ),
-                        );
-                      },
+                      onPressed: () => _onTapVerify(context),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Text(
@@ -76,14 +70,25 @@ class ForgotPasswordPinVerification extends StatelessWidget {
     );
   }
 
-  Widget _textFields(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          style: Theme.of(context).textTheme.bodyLarge,
-          decoration: const InputDecoration(hintText: 'Email'),
-        ),
-      ],
+  Widget _textField(BuildContext context) {
+    return PinCodeTextField(
+      length: 6,
+      obscureText: false,
+      keyboardType: TextInputType.number,
+      animationType: AnimationType.fade,
+      backgroundColor: Colors.transparent,
+      pinTheme: PinTheme(
+        shape: PinCodeFieldShape.box,
+        borderRadius: BorderRadius.circular(5),
+        activeFillColor: Colors.white,
+        inactiveFillColor: Colors.white,
+        inactiveColor: Colors.grey,
+        selectedFillColor: Colors.grey,
+        selectedColor: Colors.grey,
+      ),
+      animationDuration: const Duration(milliseconds: 300),
+      enableActiveFill: true,
+      appContext: context,
     );
   }
 
@@ -97,14 +102,7 @@ class ForgotPasswordPinVerification extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const SignInScreen(),
-                ),
-              );
-            },
+            onTap: () => _onTapSignIn,
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -114,6 +112,24 @@ class ForgotPasswordPinVerification extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _onTapVerify(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SetPassword(),
+      ),
+    );
+  }
+
+  void _onTapSignIn(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignInScreen(),
       ),
     );
   }

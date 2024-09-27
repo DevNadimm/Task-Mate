@@ -77,14 +77,7 @@ class SignInScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ForgotPasswordEmailAddress(),
-                ),
-              );
-            },
+            onPressed: () => _onTapForgotPassword(context),
             child: Text(
               'Forgot Password?',
               style: Theme.of(context).textTheme.titleSmall,
@@ -98,14 +91,7 @@ class SignInScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
-                    ),
-                  );
-                },
+                onTap: () => _onTapSignUp(context),
                 child: Text(
                   'Sign Up',
                   style: Theme.of(context)
@@ -117,6 +103,24 @@ class SignInScreen extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  void _onTapSignUp(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignUpScreen(),
+      ),
+    );
+  }
+
+  void _onTapForgotPassword(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ForgotPasswordEmailAddress(),
       ),
     );
   }
