@@ -37,7 +37,7 @@ class ForgotPasswordPinVerification extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  _textField(context),
+                  _pinField(context),
                   const SizedBox(
                     height: 15,
                   ),
@@ -70,7 +70,7 @@ class ForgotPasswordPinVerification extends StatelessWidget {
     );
   }
 
-  Widget _textField(BuildContext context) {
+  Widget _pinField(BuildContext context) {
     return PinCodeTextField(
       length: 6,
       obscureText: false,
@@ -80,6 +80,8 @@ class ForgotPasswordPinVerification extends StatelessWidget {
       pinTheme: PinTheme(
         shape: PinCodeFieldShape.box,
         borderRadius: BorderRadius.circular(5),
+        fieldHeight: 50,
+        fieldWidth: 40,
         activeFillColor: Colors.white,
         inactiveFillColor: Colors.white,
         inactiveColor: Colors.grey,
