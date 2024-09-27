@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/auth/forgot_password_email_address.dart';
-import 'package:task_mate/ui/screens/auth/sign_up_screen.dart';
+import 'package:task_mate/ui/screens/auth/forgot_password_pin_verification.dart';
+import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+class ForgotPasswordEmailAddress extends StatelessWidget {
+  const ForgotPasswordEmailAddress({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,21 @@ class SignInScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Get Started With",
+                    "Your Email Address",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   const SizedBox(
-                    height: 25,
+                    height: 05,
+                  ),
+                  Text(
+                    "A 6-digit verification pin will be sent to your email address.",
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Colors.black54),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   _textFields(context),
                   const SizedBox(
@@ -33,7 +43,14 @@ class SignInScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordPinVerification(),
+                          ),
+                        );
+                      },
                       child: const Padding(
                         padding: EdgeInsets.all(12),
                         child: Icon(Icons.double_arrow),
@@ -60,61 +77,35 @@ class SignInScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge,
           decoration: const InputDecoration(hintText: 'Email'),
         ),
-        const SizedBox(
-          height: 15,
-        ),
-        TextField(
-          style: Theme.of(context).textTheme.bodyLarge,
-          decoration: const InputDecoration(hintText: 'Password'),
-        ),
       ],
     );
   }
 
   Widget _buildBottomSection(BuildContext context) {
     return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextButton(
-            onPressed: () {
+          Text(
+            'Have account? ',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          GestureDetector(
+            onTap: () {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ForgotPasswordEmailAddress(),
+                  builder: (context) => const SignInScreen(),
                 ),
               );
             },
             child: Text(
-              'Forgot Password?',
-              style: Theme.of(context).textTheme.titleSmall,
+              'Sign In',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: Colors.green),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Don\'t have account? ',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Sign Up',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Colors.green),
-                ),
-              ),
-            ],
           ),
         ],
       ),
