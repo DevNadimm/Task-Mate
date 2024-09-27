@@ -42,7 +42,7 @@ class SetPassword extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => _onTapNextButton(context),
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: Text(
@@ -111,6 +111,15 @@ class SetPassword extends StatelessWidget {
   }
 
   void _onTapSignIn(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignInScreen(),
+      ),
+    );
+  }
+
+  void _onTapNextButton(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
