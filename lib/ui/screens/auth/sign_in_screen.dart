@@ -76,11 +76,14 @@ class SignInScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextButton(
-            onPressed: () => _onTapForgotPassword(context),
-            child: Text(
-              'Forgot Password?',
-              style: Theme.of(context).textTheme.titleSmall,
+          GestureDetector(
+            onTap: () => _onTapForgotPassword(context),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Forgot Password?',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
             ),
           ),
           Row(
