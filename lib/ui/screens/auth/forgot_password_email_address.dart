@@ -68,6 +68,7 @@ class ForgotPasswordEmailAddress extends StatelessWidget {
       children: [
         TextField(
           style: Theme.of(context).textTheme.bodyLarge,
+          keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(hintText: 'Email'),
         ),
       ],

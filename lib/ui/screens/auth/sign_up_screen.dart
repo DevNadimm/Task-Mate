@@ -71,6 +71,7 @@ class SignUpScreen extends StatelessWidget {
         ),
         TextField(
           style: Theme.of(context).textTheme.bodyLarge,
+          keyboardType: TextInputType.emailAddress,
           decoration: const InputDecoration(hintText: 'Email'),
         ),
         const SizedBox(
@@ -78,6 +79,7 @@ class SignUpScreen extends StatelessWidget {
         ),
         TextField(
           style: Theme.of(context).textTheme.bodyLarge,
+          keyboardType: TextInputType.phone,
           decoration: const InputDecoration(hintText: 'Mobile'),
         ),
         const SizedBox(
