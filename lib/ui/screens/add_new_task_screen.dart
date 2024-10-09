@@ -42,7 +42,7 @@ class AddNewTaskScreen extends StatelessWidget {
                         "Add",
                         style: Theme.of(context)
                             .textTheme
-                            .bodyLarge!
+                            .titleMedium!
                             .copyWith(color: Colors.white),
                       ),
                     ),
