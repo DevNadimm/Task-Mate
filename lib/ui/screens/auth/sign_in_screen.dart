@@ -30,9 +30,7 @@ class SignInScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        _onTapSignIn(context);
-                      },
+                      onPressed: () => _onTapSignIn(context),
                       child: const Padding(
                         padding: EdgeInsets.all(12),
                         child: Icon(Icons.double_arrow),
