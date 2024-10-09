@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/ui/screens/auth/forgot_password_email_address.dart';
 import 'package:task_mate/ui/screens/auth/sign_up_screen.dart';
+import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -23,26 +24,22 @@ class SignInScreen extends StatelessWidget {
                     "Get Started With",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  const SizedBox(height: 25),
                   _textFields(context),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _onTapSignIn(context);
+                      },
                       child: const Padding(
                         padding: EdgeInsets.all(12),
                         child: Icon(Icons.double_arrow),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  const SizedBox(height: 25),
                   _buildBottomSection(context),
                 ],
               ),
@@ -107,6 +104,15 @@ class SignInScreen extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  void _onTapSignIn(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainBottomNavBarScreen(),
       ),
     );
   }
