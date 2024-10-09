@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/ui/screens/add_new_task_screen.dart';
-import 'package:task_mate/ui/widgets/image_background.dart';
 
 class NewTaskScreen extends StatelessWidget {
   const NewTaskScreen({super.key});
