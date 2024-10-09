@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:task_mate/ui/widgets/custom_app_bar.dart';
+import 'package:task_mate/ui/widgets/image_background.dart';
 
 class AddNewTaskScreen extends StatelessWidget {
   const AddNewTaskScreen({super.key});
@@ -8,17 +9,18 @@ class AddNewTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
+      body: ImageBackground(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Center(
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Add New Task',
-                  style: Theme.of(context).textTheme.displayLarge,
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
                 const SizedBox(height: 25),
                 TextFormField(
