@@ -8,10 +8,8 @@ class NewTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const ImageBackground(
-        child: Center(
-          child: Text('New Task'),
-        ),
+      body: const Center(
+        child: Text('New Task'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _onTapBottomNavBar(context),
