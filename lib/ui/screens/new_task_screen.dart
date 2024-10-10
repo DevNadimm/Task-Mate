@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/ui/screens/add_new_task_screen.dart';
+import 'package:task_mate/ui/widgets/task_card.dart';
 import 'package:task_mate/ui/widgets/task_summery_card.dart';
+import 'package:task_mate/utils/colors.dart';
 
 class NewTaskScreen extends StatelessWidget {
   const NewTaskScreen({super.key});
@@ -8,25 +10,52 @@ class NewTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TaskSummeryCard(title: 'New', count: 09),
-                TaskSummeryCard(title: 'Completed', count: 09),
-                TaskSummeryCard(title: 'Cancelled', count: 09),
-                TaskSummeryCard(title: 'Progress ', count: 09),
-              ],
-            )
-          ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TaskSummeryCard(title: 'New', count: 09),
+                  TaskSummeryCard(title: 'Completed', count: 09),
+                  TaskSummeryCard(title: 'Cancelled', count: 09),
+                  TaskSummeryCard(title: 'Progress ', count: 09),
+                ],
+              ),
+              const SizedBox(height: 10),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return const TaskCard(
+                    title: 'Title is here',
+                    subTitle:
+                        'This is subtitle. when an unknown printer took a galley of type and scrambled it to.',
+                    date: 'Date: 02/02/2025',
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const SizedBox(
+                    height: 8,
+                  );
+                },
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
         onPressed: () => _onTapBottomNavBar(context),
-        child: const Icon(Icons.add_circle_rounded),
+        child: const Icon(
+          Icons.add_circle_rounded,
+          color: Colors.white,
+        ),
       ),
     );
   }
