@@ -25,29 +25,46 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               children: [
                 const SizedBox(height: 40),
                 Text(
-                  'Add New Task',
+                  'Update Profile',
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
                 const SizedBox(height: 25),
+                _imagePickerContainer(context),
+                const SizedBox(height: 15),
                 TextFormField(
                   style: Theme.of(context).textTheme.bodyLarge,
-                  decoration: const InputDecoration(hintText: 'Title'),
+                  decoration: const InputDecoration(hintText: 'Email'),
                 ),
                 const SizedBox(height: 15),
                 TextFormField(
-                  maxLines: 4,
                   style: Theme.of(context).textTheme.bodyLarge,
-                  decoration: const InputDecoration(hintText: 'Description'),
+                  decoration: const InputDecoration(hintText: 'First Name'),
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  decoration: const InputDecoration(hintText: 'Last Name'),
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  decoration: const InputDecoration(hintText: 'Mobile'),
+                ),
+                const SizedBox(height: 15),
+                TextFormField(
+                  style: Theme.of(context).textTheme.bodyLarge,
+                  decoration: const InputDecoration(hintText: 'Password'),
                 ),
                 const SizedBox(height: 15),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => onTapAddButton(context),
+                    onPressed: () => _onTapAddButton(context),
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                        "Add",
+                        "Update",
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
@@ -64,13 +81,43 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     );
   }
 
-  void onTapAddButton(BuildContext context) {
+  Widget _imagePickerContainer(BuildContext context) {
+    return Container(
+      height: 55,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 55,
+            width: MediaQuery.sizeOf(context).width / 3.5,
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(
+              child: Text(
+                "Photos",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Colors.white,
+                    ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _onTapAddButton(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
         builder: (context) => const MainBottomNavBarScreen(),
       ),
-          (predicate) => false,
+      (predicate) => false,
     );
   }
 }
