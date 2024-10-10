@@ -57,14 +57,15 @@ Widget _buildRowSection(BuildContext context) {
   return Row(
     children: [
       Chip(
-        label: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+        label: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: Text(
             'New',
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(fontWeight: FontWeight.w500, color: Colors.white),
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 14,
+            ),
           ),
         ),
         shape: RoundedRectangleBorder(
@@ -100,13 +101,9 @@ Future<void> _onTapEditButton(BuildContext context) {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        title: const Text(
+        title: Text(
           'Edit Status',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.black87,
-          ),
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
