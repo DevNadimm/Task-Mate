@@ -3,9 +3,14 @@ import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:task_mate/ui/widgets/custom_app_bar.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class AddNewTaskScreen extends StatelessWidget {
-  const AddNewTaskScreen({super.key});
+class UpdateProfileScreen extends StatefulWidget {
+  const UpdateProfileScreen({super.key});
 
+  @override
+  State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
+}
+
+class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +70,7 @@ class AddNewTaskScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => const MainBottomNavBarScreen(),
       ),
-      (predicate) => false,
+          (predicate) => false,
     );
   }
 }
