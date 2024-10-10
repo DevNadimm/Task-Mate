@@ -39,9 +39,7 @@ class NewTaskScreen extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 8,
-                  );
+                  return const SizedBox(height: 8);
                 },
               ),
               const SizedBox(height: 16),
