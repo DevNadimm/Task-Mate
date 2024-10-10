@@ -15,7 +15,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(isUpdateProfileScreen: true),
       body: ImageBackground(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),

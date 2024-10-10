@@ -10,7 +10,7 @@ class AddNewTaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
+      appBar: CustomAppBar(),
       body: ImageBackground(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
