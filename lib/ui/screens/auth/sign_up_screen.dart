@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/data/models/network_response.dart';
 import 'package:task_mate/data/services/network_caller.dart';
+import 'package:task_mate/data/utils/toast_message.dart';
+import 'package:task_mate/data/utils/urls.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
-import 'package:task_mate/utils/show_toast_message.dart';
-import 'package:task_mate/utils/urls.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

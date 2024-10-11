@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/data/utils/colors.dart';
 import 'package:task_mate/ui/screens/add_new_task_screen.dart';
 import 'package:task_mate/ui/widgets/task_card.dart';
 import 'package:task_mate/ui/widgets/task_summery_card.dart';
-import 'package:task_mate/utils/colors.dart';
 
 class NewTaskScreen extends StatelessWidget {
   const NewTaskScreen({super.key});

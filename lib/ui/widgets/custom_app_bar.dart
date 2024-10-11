@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/data/utils/colors.dart';
 import 'package:task_mate/ui/screens/update_profile_screen.dart';
-import 'package:task_mate/utils/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({super.key, this.isUpdateProfileScreen = false});
