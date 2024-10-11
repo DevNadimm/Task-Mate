@@ -14,24 +14,14 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final GlobalKey<FormState> _globalKey = GlobalKey();
 
+  final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   bool inProgress = false;
-
-  @override
-  void dispose() {
-    _firstNameTEController.dispose();
-    _lastNameTEController.dispose();
-    _emailTEController.dispose();
-    _mobileTEController.dispose();
-    _passwordTEController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,12 +179,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onTapSignUp(BuildContext context) {
-    if (_globalKey.currentState!.validate()) {
-      _signUp();
-    }
-  }
-
   Future<void> _signUp() async {
     inProgress = true;
     setState(() {});
@@ -206,14 +190,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
       "mobile": _mobileTEController.text.trim(),
       "password": _passwordTEController.text.trim(),
     };
+
     NetworkResponse networkResponse = await NetworkCaller.postRequest(
         url: Urls.registration, body: requestBody);
+
     inProgress = false;
     setState(() {});
+
     if (networkResponse.isSuccess) {
       ToastMessage.successToast('Sign Up Completed');
+      clearField();
     } else {
       ToastMessage.errorToast(networkResponse.errorMessage);
+    }
+  }
+
+  void clearField() {
+    _firstNameTEController.clear();
+    _lastNameTEController.clear();
+    _emailTEController.clear();
+    _mobileTEController.clear();
+    _passwordTEController.clear();
+  }
+
+  void _onTapSignUp(BuildContext context) {
+    if (_globalKey.currentState!.validate()) {
+      _signUp();
     }
   }
 
@@ -222,5 +224,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       context,
       MaterialPageRoute(builder: (context) => const SignInScreen()),
     );
+  }
+
+  @override
+  void dispose() {
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _emailTEController.dispose();
+    _mobileTEController.dispose();
+    _passwordTEController.dispose();
+    super.dispose();
   }
 }
