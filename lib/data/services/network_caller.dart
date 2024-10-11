@@ -32,7 +32,7 @@ class NetworkCaller {
   }
 
   static Future<NetworkResponse> postRequest(
-      String url, Map<String, dynamic>? body) async {
+      {required String url, Map<String, dynamic>? body}) async {
     try {
       final uri = Uri.parse(url);
       final response = await http.post(uri,
