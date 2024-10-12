@@ -109,6 +109,14 @@ class _ForgotPasswordPinVerificationState
         animationDuration: const Duration(milliseconds: 300),
         enableActiveFill: true,
         appContext: context,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Pin cannot be empty';
+          } else if (value.length < 6) {
+            return 'Pin must be exactly 6 digits';
+          }
+          return null;
+        },
       ),
     );
   }
