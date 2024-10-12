@@ -95,7 +95,7 @@ class _ForgotPasswordPinVerificationState
         keyboardType: TextInputType.number,
         animationType: AnimationType.fade,
         backgroundColor: Colors.transparent,
-        autoDisposeControllers:false,
+        autoDisposeControllers: false,
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
@@ -113,8 +113,6 @@ class _ForgotPasswordPinVerificationState
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Pin cannot be empty';
-          } else if (value.length < 6) {
-            return 'Pin must be exactly 6 digits';
           }
           return null;
         },
