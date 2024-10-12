@@ -95,6 +95,7 @@ class _ForgotPasswordPinVerificationState
         keyboardType: TextInputType.number,
         animationType: AnimationType.fade,
         backgroundColor: Colors.transparent,
+        autoDisposeControllers:false,
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
