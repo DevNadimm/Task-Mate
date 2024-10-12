@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:task_mate/ui/controller/auth_controller.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
+import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
 import '../widgets/image_background.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -13,18 +15,28 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    nextScreen(context);
+    _goToNextScreen(context);
     super.initState();
   }
 
-  Future<void> nextScreen(context) async {
+  Future<void> _goToNextScreen(context) async {
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const SignInScreen(),
-      ),
-    );
+    await AuthController.getAccessToken();
+    if (AuthController.isSignedIn()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const MainBottomNavBarScreen(),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const SignInScreen(),
+        ),
+      );
+    }
   }
 
   @override
