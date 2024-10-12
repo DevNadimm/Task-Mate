@@ -3,6 +3,7 @@ import 'package:task_mate/data/models/network_response.dart';
 import 'package:task_mate/data/services/network_caller.dart';
 import 'package:task_mate/data/utils/toast_message.dart';
 import 'package:task_mate/data/utils/urls.dart';
+import 'package:task_mate/ui/controller/auth_controller.dart';
 import 'package:task_mate/ui/screens/auth/forgot_password_email_address.dart';
 import 'package:task_mate/ui/screens/auth/sign_up_screen.dart';
 import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
@@ -166,7 +167,8 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() => inProgress = false);
 
     if (networkResponse.isSuccess) {
-      ToastMessage.successToast('Successfully Signed In');
+      await AuthController.saveAccessToken(networkResponse.responseData['token']);
+      ToastMessage.successToast('Sign in successful!');
       _clearFields();
       Navigator.pushReplacement(
         context,
