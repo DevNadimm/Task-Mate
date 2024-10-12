@@ -3,4 +3,5 @@ class Urls {
   static String registration = '$baseUrl/Registration';
   static String login = '$baseUrl/Login';
   static String recoverVerifyEmail = '$baseUrl/RecoverVerifyEmail/';
+  static String recoverVerifyOtp = '$baseUrl/RecoverVerifyOtp/';
 }
