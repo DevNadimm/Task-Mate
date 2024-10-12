@@ -3,24 +3,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
 import 'package:task_mate/data/models/network_response.dart';
 import 'package:http/http.dart' as http;
+import 'package:task_mate/ui/controller/auth_controller.dart';
 
 class NetworkCaller {
   static Future<NetworkResponse> getRequest(String url) async {
     try {
       final uri = Uri.parse(url);
-      final response = await http.get(uri);
+      final token = AuthController.getAccessToken();
+
+      final response = await http.get(
+        uri,
+        headers: {'token': '$token'},
+      );
+
       printResponse(url, response);
+
+      dynamic decodeData;
+      try {
+        decodeData = jsonDecode(response.body);
+      } catch (e) {
+        decodeData = response.body;
+      }
+
       if (response.statusCode == 200) {
-        final decodeData = jsonDecode(response.body);
         return NetworkResponse(
-            statusCode: response.statusCode,
-            isSuccess: true,
-            responseData: decodeData);
+          statusCode: response.statusCode,
+          isSuccess: true,
+          responseData: decodeData,
+        );
+      } else if (decodeData is Map && decodeData['status'] == 'fail') {
+        return NetworkResponse(
+          statusCode: response.statusCode,
+          isSuccess: false,
+          errorMessage: decodeData['data'],
+        );
       } else {
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
-          errorMessage: 'Unexpected error!',
         );
       }
     } catch (error) {
@@ -67,7 +87,6 @@ class NetworkCaller {
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
-          errorMessage: 'Unexpected error!',
         );
       }
     } catch (error) {

@@ -1,60 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/data/models/network_response.dart';
+import 'package:task_mate/data/services/network_caller.dart';
+import 'package:task_mate/data/utils/toast_message.dart';
+import 'package:task_mate/data/utils/urls.dart';
 import 'package:task_mate/ui/screens/auth/forgot_password_pin_verification.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class ForgotPasswordEmailAddress extends StatelessWidget {
+class ForgotPasswordEmailAddress extends StatefulWidget {
   const ForgotPasswordEmailAddress({super.key});
+
+  @override
+  State<ForgotPasswordEmailAddress> createState() =>
+      _ForgotPasswordEmailAddressState();
+}
+
+class _ForgotPasswordEmailAddressState
+    extends State<ForgotPasswordEmailAddress> {
+  final GlobalKey<FormState> _globalKey = GlobalKey();
+  final TextEditingController _emailTEController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: ImageBackground(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Your Email Address",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  const SizedBox(
-                    height: 05,
-                  ),
-                  Text(
-                    "A 6-digit verification pin will be sent to your email address.",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: Colors.black54),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _textFields(context),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () => _onTapNextButton(context),
-                      child: const Padding(
-                        padding: EdgeInsets.all(12),
-                        child: Icon(Icons.double_arrow),
+      body: GestureDetector(
+        onTap: ()=> FocusScope.of(context).unfocus(),
+        child: ImageBackground(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Your Email Address",
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    const SizedBox(
+                      height: 05,
+                    ),
+                    Text(
+                      "A 6-digit verification pin will be sent to your email address.",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: Colors.black54),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _textField(context),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () => _onTapNextButton(context),
+                        child: const Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Icon(Icons.double_arrow),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  _buildBottomSection(context),
-                ],
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    _buildBottomSection(context),
+                  ],
+                ),
               ),
             ),
           ),
@@ -63,15 +80,24 @@ class ForgotPasswordEmailAddress extends StatelessWidget {
     );
   }
 
-  Widget _textFields(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          style: Theme.of(context).textTheme.bodyLarge,
-          keyboardType: TextInputType.emailAddress,
-          decoration: const InputDecoration(hintText: 'Email'),
-        ),
-      ],
+  Widget _textField(BuildContext context) {
+    return Form(
+      key: _globalKey,
+      child: TextFormField(
+        controller: _emailTEController,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        style: Theme.of(context).textTheme.bodyLarge,
+        keyboardType: TextInputType.emailAddress,
+        decoration: const InputDecoration(hintText: 'Email'),
+        validator: (email) {
+          if (email == null || email.isEmpty) {
+            return 'Please enter your email address';
+          } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
+            return 'Please enter a valid email address';
+          }
+          return null;
+        },
+      ),
     );
   }
 
@@ -99,20 +125,33 @@ class ForgotPasswordEmailAddress extends StatelessWidget {
     );
   }
 
+  Future<void> _recoverVerifyEmail(BuildContext context) async {
+    String email = _emailTEController.text.trim();
+    final url = '${Urls.recoverVerifyEmail}$email';
+    NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
+    if (networkResponse.isSuccess) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ForgotPasswordPinVerification(),
+        ),
+      );
+    } else {
+      ToastMessage.errorToast(networkResponse.errorMessage);
+    }
+  }
+
+  void _onTapNextButton(BuildContext context) {
+    if (_globalKey.currentState!.validate()) {
+      _recoverVerifyEmail(context);
+    }
+  }
+
   void _onTapSignIn(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => const SignInScreen(),
-      ),
-    );
-  }
-
-  void _onTapNextButton(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const ForgotPasswordPinVerification(),
       ),
     );
   }
