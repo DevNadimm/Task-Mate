@@ -19,26 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
   }
 
-  Future<void> _goToNextScreen(context) async {
-    await Future.delayed(const Duration(seconds: 3));
-    await AuthController.getAccessToken();
-    if (AuthController.isSignedIn()) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const MainBottomNavBarScreen(),
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const SignInScreen(),
-        ),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,5 +47,25 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _goToNextScreen(context) async {
+    await Future.delayed(const Duration(seconds: 3));
+    await AuthController.getAccessToken();
+    if (AuthController.isSignedIn()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const MainBottomNavBarScreen(),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const SignInScreen(),
+        ),
+      );
+    }
   }
 }
