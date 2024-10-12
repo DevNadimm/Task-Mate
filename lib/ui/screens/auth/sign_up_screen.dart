@@ -27,42 +27,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: ImageBackground(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Join With Us",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  const SizedBox(height: 25),
-                  _textFields(context),
-                  const SizedBox(height: 15),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Visibility(
-                      visible: !inProgress,
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      child: ElevatedButton(
-                        onPressed:
-                            inProgress ? null : () => _onTapSignUp(context),
-                        child: const Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Icon(Icons.double_arrow),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: ImageBackground(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Join With Us",
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    const SizedBox(height: 25),
+                    _textFields(context),
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: !inProgress,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed:
+                              inProgress ? null : () => _onTapSignUp(context),
+                          child: const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Icon(Icons.double_arrow),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  _buildBottomSection(context),
-                ],
+                    const SizedBox(height: 25),
+                    _buildBottomSection(context),
+                  ],
+                ),
               ),
             ),
           ),
