@@ -41,9 +41,7 @@ class _ForgotPasswordPinVerificationState
                     "Pin Verification",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
-                  const SizedBox(
-                    height: 05,
-                  ),
+                  const SizedBox(height: 5),
                   Text(
                     "A 6-digit verification pin has been sent to your email address.",
                     style: Theme.of(context)
@@ -51,13 +49,9 @@ class _ForgotPasswordPinVerificationState
                         .titleMedium!
                         .copyWith(color: Colors.black54),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   _pinField(context),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  const SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
                     child: Visibility(
@@ -80,9 +74,7 @@ class _ForgotPasswordPinVerificationState
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 25,
-                  ),
+                  const SizedBox(height: 25),
                   _buildBottomSection(context),
                 ],
               ),
@@ -127,11 +119,11 @@ class _ForgotPasswordPinVerificationState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Have account? ',
+            'Have an account? ',
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () => _onTapSignIn,
+            onTap: () => _onTapSignIn(context),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -168,7 +160,9 @@ class _ForgotPasswordPinVerificationState
   }
 
   void _onTapVerify(BuildContext context) {
-    _recoverVerifyOtp(context);
+    if (_globalKey.currentState!.validate()) {
+      _recoverVerifyOtp(context);
+    }
   }
 
   void _onTapSignIn(BuildContext context) {
