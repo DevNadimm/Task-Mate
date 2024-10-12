@@ -87,8 +87,6 @@ class _SignInScreenState extends State<SignInScreen> {
             validator: (email) {
               if (email == null || email.isEmpty) {
                 return 'Please enter your email address';
-              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(email)) {
-                return 'Please enter a valid email address';
               }
               return null;
             },
@@ -103,8 +101,6 @@ class _SignInScreenState extends State<SignInScreen> {
             validator: (password) {
               if (password == null || password.isEmpty) {
                 return 'Please enter your password';
-              } else if (password.length < 6) {
-                return 'Password must be at least 6 characters';
               }
               return null;
             },
@@ -167,7 +163,8 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() => inProgress = false);
 
     if (networkResponse.isSuccess) {
-      await AuthController.saveAccessToken(networkResponse.responseData['token']);
+      await AuthController.saveAccessToken(
+          networkResponse.responseData['token']);
       ToastMessage.successToast('Sign in successful!');
       _clearFields();
       Navigator.pushReplacement(

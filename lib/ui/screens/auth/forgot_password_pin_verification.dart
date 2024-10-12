@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_mate/data/models/network_response.dart';
+import 'package:task_mate/data/services/network_caller.dart';
+import 'package:task_mate/data/utils/toast_message.dart';
+import 'package:task_mate/data/utils/urls.dart';
 import 'package:task_mate/ui/screens/auth/set_password.dart';
 import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class ForgotPasswordPinVerification extends StatelessWidget {
-  const ForgotPasswordPinVerification({super.key});
+class ForgotPasswordPinVerification extends StatefulWidget {
+  const ForgotPasswordPinVerification({super.key, required this.email});
+
+  final String email;
+
+  @override
+  State<ForgotPasswordPinVerification> createState() =>
+      _ForgotPasswordPinVerificationState();
+}
+
+class _ForgotPasswordPinVerificationState
+    extends State<ForgotPasswordPinVerification> {
+  final TextEditingController _pinTEController = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey();
+  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,26 +88,30 @@ class ForgotPasswordPinVerification extends StatelessWidget {
   }
 
   Widget _pinField(BuildContext context) {
-    return PinCodeTextField(
-      length: 6,
-      obscureText: false,
-      keyboardType: TextInputType.number,
-      animationType: AnimationType.fade,
-      backgroundColor: Colors.transparent,
-      pinTheme: PinTheme(
-        shape: PinCodeFieldShape.box,
-        borderRadius: BorderRadius.circular(5),
-        fieldHeight: 50,
-        fieldWidth: 40,
-        activeFillColor: Colors.white,
-        inactiveFillColor: Colors.white,
-        inactiveColor: Colors.grey,
-        selectedFillColor: Colors.grey,
-        selectedColor: Colors.grey,
+    return Form(
+      key: _globalKey,
+      child: PinCodeTextField(
+        controller: _pinTEController,
+        length: 6,
+        obscureText: false,
+        keyboardType: TextInputType.number,
+        animationType: AnimationType.fade,
+        backgroundColor: Colors.transparent,
+        pinTheme: PinTheme(
+          shape: PinCodeFieldShape.box,
+          borderRadius: BorderRadius.circular(5),
+          fieldHeight: 50,
+          fieldWidth: 40,
+          activeFillColor: Colors.white,
+          inactiveFillColor: Colors.white,
+          inactiveColor: Colors.grey,
+          selectedFillColor: Colors.grey,
+          selectedColor: Colors.grey,
+        ),
+        animationDuration: const Duration(milliseconds: 300),
+        enableActiveFill: true,
+        appContext: context,
       ),
-      animationDuration: const Duration(milliseconds: 300),
-      enableActiveFill: true,
-      appContext: context,
     );
   }
 
@@ -118,13 +139,30 @@ class ForgotPasswordPinVerification extends StatelessWidget {
     );
   }
 
+  Future<void> _recoverVerifyOtp(BuildContext context) async {
+    setState(() => inProgress = true);
+
+    final email = widget.email;
+    final url = '${Urls.recoverVerifyOtp}$email/${_pinTEController.text}';
+
+    NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
+    setState(() => inProgress = false);
+
+    if (networkResponse.isSuccess) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SetPassword(),
+        ),
+      );
+      _pinTEController.clear();
+    } else {
+      ToastMessage.errorToast(networkResponse.errorMessage);
+    }
+  }
+
   void _onTapVerify(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SetPassword(),
-      ),
-    );
+    _recoverVerifyOtp(context);
   }
 
   void _onTapSignIn(BuildContext context) {
@@ -134,5 +172,11 @@ class ForgotPasswordPinVerification extends StatelessWidget {
         builder: (context) => const SignInScreen(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _pinTEController.dispose();
+    super.dispose();
   }
 }
