@@ -141,11 +141,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             obscureText: true,
             validator: (password) {
               final passwordRegex =
-                  RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+                  RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
               if (password!.isEmpty) {
                 return 'Please enter a strong password';
               } else if (!passwordRegex.hasMatch(password)) {
-                return 'At least 8 characters with letters and numbers.';
+                return 'At least 6 characters with letters and numbers.';
               }
               return null;
             },
@@ -199,13 +199,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     if (networkResponse.isSuccess) {
       ToastMessage.successToast('Sign Up Completed');
-      clearField();
+      _clearField();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        ),
+      );
     } else {
       ToastMessage.errorToast(networkResponse.errorMessage);
     }
   }
 
-  void clearField() {
+  void _clearField() {
     _firstNameTEController.clear();
     _lastNameTEController.clear();
     _emailTEController.clear();
