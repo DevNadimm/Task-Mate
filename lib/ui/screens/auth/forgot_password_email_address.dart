@@ -19,13 +19,14 @@ class _ForgotPasswordEmailAddressState
     extends State<ForgotPasswordEmailAddress> {
   final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _emailTEController = TextEditingController();
+  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
-        onTap: ()=> FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: ImageBackground(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -58,11 +59,17 @@ class _ForgotPasswordEmailAddressState
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => _onTapNextButton(context),
-                        child: const Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Icon(Icons.double_arrow),
+                      child: Visibility(
+                        visible: !inProgress,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () => _onTapNextButton(context),
+                          child: const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: Icon(Icons.double_arrow),
+                          ),
                         ),
                       ),
                     ),
@@ -126,9 +133,14 @@ class _ForgotPasswordEmailAddressState
   }
 
   Future<void> _recoverVerifyEmail(BuildContext context) async {
+    setState(() => inProgress = true);
+
     String email = _emailTEController.text.trim();
     final url = '${Urls.recoverVerifyEmail}$email';
+
     NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
+    setState(() => inProgress = false);
+
     if (networkResponse.isSuccess) {
       Navigator.pushReplacement(
         context,
@@ -136,6 +148,7 @@ class _ForgotPasswordEmailAddressState
           builder: (context) => const ForgotPasswordPinVerification(),
         ),
       );
+      _emailTEController.clear();
     } else {
       ToastMessage.errorToast(networkResponse.errorMessage);
     }
@@ -154,5 +167,11 @@ class _ForgotPasswordEmailAddressState
         builder: (context) => const SignInScreen(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    super.dispose();
   }
 }
