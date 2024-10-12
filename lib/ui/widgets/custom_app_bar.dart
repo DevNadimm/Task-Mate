@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/data/utils/colors.dart';
+import 'package:task_mate/data/utils/toast_message.dart';
+import 'package:task_mate/ui/controller/auth_controller.dart';
+import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
 import 'package:task_mate/ui/screens/update_profile_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -45,6 +48,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
+      actions: [
+        if (isUpdateProfileScreen)
+          IconButton(
+            onPressed: () => _onTapLogOut(context),
+            icon: const Icon(Icons.logout),
+          ),
+      ],
       backgroundColor: primaryColor,
     );
   }
@@ -59,5 +69,17 @@ void _onTapProfile(BuildContext context) {
     MaterialPageRoute(
       builder: (context) => const UpdateProfileScreen(),
     ),
+  );
+}
+
+void _onTapLogOut(BuildContext context) {
+  AuthController.clearAccessToken();
+  ToastMessage.successToast('Sign out successful!');
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const SignInScreen(),
+    ),
+    (predicate) => false,
   );
 }
