@@ -92,7 +92,6 @@ class _ForgotPasswordEmailAddressState
       key: _globalKey,
       child: TextFormField(
         controller: _emailTEController,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         style: Theme.of(context).textTheme.bodyLarge,
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(hintText: 'Email'),
@@ -145,7 +144,7 @@ class _ForgotPasswordEmailAddressState
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const ForgotPasswordPinVerification(),
+          builder: (context) => ForgotPasswordPinVerification(email: email),
         ),
       );
       _emailTEController.clear();
