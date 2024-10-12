@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
     );
   }
 
-
   final TextTheme _textTheme = const TextTheme(
     displayLarge: TextStyle(
       color: Colors.black,
@@ -97,14 +96,12 @@ class MyApp extends StatelessWidget {
     ),
   );
 
-
   static const OutlineInputBorder _outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(8.0),
     ),
-    borderSide: BorderSide.none,
+    borderSide: BorderSide(width: 2, color: Colors.grey),
   );
-
 
   final InputDecorationTheme _inputDecorationTheme = const InputDecorationTheme(
     filled: true,
@@ -118,14 +115,14 @@ class MyApp extends StatelessWidget {
     ),
   );
 
-
-  final ElevatedButtonThemeData _elevatedButtonThemeData = ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8)
-          )
-      )
+  final ElevatedButtonThemeData _elevatedButtonThemeData =
+      ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
   );
 }
