@@ -20,6 +20,7 @@ class NetworkCaller {
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
+          errorMessage: 'Unexpected error!',
         );
       }
     } catch (error) {
@@ -35,20 +36,38 @@ class NetworkCaller {
       {required String url, Map<String, dynamic>? body}) async {
     try {
       final uri = Uri.parse(url);
-      final response = await http.post(uri,
-          body: jsonEncode(body),
-          headers: {'Content-Type': 'application/json'});
+      final response = await http.post(
+        uri,
+        body: jsonEncode(body),
+        headers: {'Content-Type': 'application/json'},
+      );
+
       printResponse(url, response);
+
+      dynamic decodeData;
+      try {
+        decodeData = jsonDecode(response.body);
+      } catch (e) {
+        decodeData = response.body;
+      }
+
       if (response.statusCode == 200) {
-        final decodeData = jsonDecode(response.body);
         return NetworkResponse(
-            statusCode: response.statusCode,
-            isSuccess: true,
-            responseData: decodeData);
+          statusCode: response.statusCode,
+          isSuccess: true,
+          responseData: decodeData,
+        );
+      } else if (decodeData is Map && decodeData['status'] == 'fail') {
+        return NetworkResponse(
+          statusCode: response.statusCode,
+          isSuccess: false,
+          errorMessage: decodeData['data'],
+        );
       } else {
         return NetworkResponse(
           statusCode: response.statusCode,
           isSuccess: false,
+          errorMessage: 'Unexpected error!',
         );
       }
     } catch (error) {
