@@ -201,7 +201,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {});
 
     if (networkResponse.isSuccess) {
-      ToastMessage.successToast('Sign Up Completed');
+      ToastMessage.successToast('Sign up successful!');
       _clearField();
       Navigator.pushReplacement(
         context,
