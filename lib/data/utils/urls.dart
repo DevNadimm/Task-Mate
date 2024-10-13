@@ -4,4 +4,5 @@ class Urls {
   static String login = '$baseUrl/Login';
   static String recoverVerifyEmail = '$baseUrl/RecoverVerifyEmail/';
   static String recoverVerifyOtp = '$baseUrl/RecoverVerifyOtp/';
+  static String recoverResetPassword = '$baseUrl/RecoverResetPassword';
 }

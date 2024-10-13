@@ -14,7 +14,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
   final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _firstNameTEController = TextEditingController();
   final TextEditingController _lastNameTEController = TextEditingController();
@@ -144,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             obscureText: true,
             validator: (password) {
               final passwordRegex =
-                  RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
+                  RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@#$%^&+=!]{6,}$');
               if (password!.isEmpty) {
                 return 'Please enter a strong password';
               } else if (!passwordRegex.hasMatch(password)) {

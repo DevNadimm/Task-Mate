@@ -148,7 +148,8 @@ class _ForgotPasswordPinVerificationState
     setState(() => inProgress = true);
 
     final email = widget.email;
-    final url = '${Urls.recoverVerifyOtp}$email/${_pinTEController.text}';
+    final otp = _pinTEController.text;
+    final url = '${Urls.recoverVerifyOtp}$email/$otp';
 
     NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
     setState(() => inProgress = false);
@@ -157,7 +158,7 @@ class _ForgotPasswordPinVerificationState
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const SetPassword(),
+          builder: (context) => SetPassword(email: email,otp: otp,),
         ),
       );
       _pinTEController.clear();
