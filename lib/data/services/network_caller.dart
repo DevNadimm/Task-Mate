@@ -56,10 +56,15 @@ class NetworkCaller {
       {required String url, Map<String, dynamic>? body}) async {
     try {
       final uri = Uri.parse(url);
+      final token = AuthController.getAccessToken();
+
       final response = await http.post(
         uri,
         body: jsonEncode(body),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+          'token': '$token',
+        },
       );
 
       printResponse(url, response);
