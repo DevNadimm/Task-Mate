@@ -20,8 +20,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             CircleAvatar(
               backgroundColor: primaryColor.withOpacity(0.2),
-              backgroundImage: const NetworkImage(
-                  'https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg'),
+              backgroundImage: const AssetImage(
+                'assets/images/avatar.jpeg',
+              ),
             ),
             const SizedBox(width: 10),
             const Column(
