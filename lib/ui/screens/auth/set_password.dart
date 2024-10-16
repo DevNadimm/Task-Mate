@@ -27,63 +27,66 @@ class _SetPasswordState extends State<SetPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: ImageBackground(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Set Password",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  const SizedBox(
-                    height: 05,
-                  ),
-                  Text(
-                    "Minimum length password: 6 characters with a combination of letters and numbers.",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: Colors.black54),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _textFields(context),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Visibility(
-                      visible: !inProgress,
-                      replacement: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () => _onTapConfirmButton(context),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Text(
-                            'Confirm',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium!
-                                .copyWith(color: Colors.white),
+      body: GestureDetector(
+        onTap: ()=> FocusScope.of(context).unfocus(),
+        child: ImageBackground(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Set Password",
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                    const SizedBox(
+                      height: 05,
+                    ),
+                    Text(
+                      "Minimum length password: 6 characters with a combination of letters and numbers.",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: Colors.black54),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _textFields(context),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Visibility(
+                        visible: !inProgress,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: () => _onTapConfirmButton(context),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Text(
+                              'Confirm',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  _buildBottomSection(context),
-                ],
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    _buildBottomSection(context),
+                  ],
+                ),
               ),
             ),
           ),
