@@ -5,9 +5,12 @@ import 'package:task_mate/ui/screens/splash_screen.dart';
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Task-Mate',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
