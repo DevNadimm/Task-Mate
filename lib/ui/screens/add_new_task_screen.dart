@@ -1,57 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
+import 'package:task_mate/data/models/network_response.dart';
+import 'package:task_mate/data/services/network_caller.dart';
+import 'package:task_mate/data/utils/toast_message.dart';
+import 'package:task_mate/data/utils/urls.dart';
 import 'package:task_mate/ui/widgets/custom_app_bar.dart';
 import 'package:task_mate/ui/widgets/image_background.dart';
 
-class AddNewTaskScreen extends StatelessWidget {
+class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({super.key});
+
+  @override
+  State<AddNewTaskScreen> createState() => _AddNewTaskScreenState();
+}
+
+class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
+  final TextEditingController _titleTEController = TextEditingController();
+  final TextEditingController _descriptionTEController =
+      TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey();
+  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(),
-      body: ImageBackground(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 40),
-                Text(
-                  'Add New Task',
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-                const SizedBox(height: 25),
-                TextFormField(
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  decoration: const InputDecoration(hintText: 'Title'),
-                ),
-                const SizedBox(height: 15),
-                TextFormField(
-                  maxLines: 4,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  decoration: const InputDecoration(hintText: 'Description'),
-                ),
-                const SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => onTapAddButton(context),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Text(
-                        "Add",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(color: Colors.white),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: ImageBackground(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 40),
+                  Text(
+                    'Add New Task',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  const SizedBox(height: 25),
+                  _buildTextFields(),
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    width: double.infinity,
+                    child: Visibility(
+                      visible: !inProgress,
+                      replacement: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      child: ElevatedButton(
+                        onPressed: () => onTapAddButton(context),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Text(
+                            "Add",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .copyWith(color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -59,13 +73,73 @@ class AddNewTaskScreen extends StatelessWidget {
     );
   }
 
-  void onTapAddButton(BuildContext context) {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MainBottomNavBarScreen(),
+  Widget _buildTextFields() {
+    return Form(
+      key: _globalKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: _titleTEController,
+            style: Theme.of(context).textTheme.bodyLarge,
+            decoration: const InputDecoration(hintText: 'Title'),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Please enter a title';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 15),
+          TextFormField(
+            controller: _descriptionTEController,
+            maxLines: 4,
+            style: Theme.of(context).textTheme.bodyLarge,
+            decoration: const InputDecoration(hintText: 'Description'),
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return 'Please enter a description';
+              }
+              return null;
+            },
+          ),
+        ],
       ),
-      (predicate) => false,
     );
+  }
+
+  Future<void> _addNawPost() async {
+    setState(() => inProgress = true);
+
+    Map<String, dynamic> requestBody = {
+      "title": _titleTEController.text.trim(),
+      "description": _descriptionTEController.text.trim(),
+      "status": "New"
+    };
+    NetworkResponse networkResponse = await NetworkCaller.postRequest(
+        url: Urls.createTask, body: requestBody);
+
+    setState(() => inProgress = false);
+
+    if (networkResponse.isSuccess) {
+      ToastMessage.successToast('Task added successfully!');
+
+      _titleTEController.clear();
+      _descriptionTEController.clear();
+    } else {
+      ToastMessage.errorToast(networkResponse.errorMessage);
+    }
+  }
+
+  void onTapAddButton(BuildContext context) {
+    if (_globalKey.currentState!.validate()) {
+      _addNawPost();
+    }
+  }
+
+  @override
+  void dispose() {
+    _titleTEController.dispose();
+    _descriptionTEController.dispose();
+    super.dispose();
   }
 }
