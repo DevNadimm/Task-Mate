@@ -3,6 +3,7 @@ import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 import 'package:task_mate/features/tasks/widgets/task_summery_card.dart';
 import 'package:task_mate/features/tasks/screens/add_new_task_screen.dart';
+import 'package:task_mate/models/task_model.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
@@ -12,6 +13,9 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
+  bool inProgressTaskList = false;
+  List<TaskModel> newTaskList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +38,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 10,
+                itemCount: newTaskList.length,
                 itemBuilder: (context, index) {
-                  return const TaskCard(
-                    title: 'Title is here',
-                    subTitle:
-                        'This is subtitle. when an unknown printer took a galley of type and scrambled it to.',
-                    date: 'Date: 02/02/2025',
+                  return TaskCard(
+                    task: newTaskList[index],
                   );
                 },
                 separatorBuilder: (context, index) {
