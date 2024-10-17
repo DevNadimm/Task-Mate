@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/core/network/network_caller.dart';
+import 'package:task_mate/core/network/network_response.dart';
 import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/toast_message.dart';
+import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 import 'package:task_mate/features/tasks/widgets/task_summery_card.dart';
 import 'package:task_mate/features/tasks/screens/add_new_task_screen.dart';
+import 'package:task_mate/models/task_list_model.dart';
 import 'package:task_mate/models/task_model.dart';
 
 class NewTaskScreen extends StatefulWidget {
@@ -15,6 +20,12 @@ class NewTaskScreen extends StatefulWidget {
 class _NewTaskScreenState extends State<NewTaskScreen> {
   bool inProgressTaskList = false;
   List<TaskModel> newTaskList = [];
+
+  @override
+  void initState() {
+    _getNewTaskList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +46,24 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: newTaskList.length,
-                itemBuilder: (context, index) {
-                  return TaskCard(
-                    task: newTaskList[index],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 8);
-                },
+              Visibility(
+                visible: !inProgressTaskList,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: newTaskList.length,
+                  itemBuilder: (context, index) {
+                    return TaskCard(
+                      task: newTaskList[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8);
+                  },
+                ),
               ),
               const SizedBox(height: 16),
             ],
@@ -71,5 +88,22 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         builder: (context) => const AddNewTaskScreen(),
       ),
     );
+  }
+
+  Future _getNewTaskList() async {
+    newTaskList.clear();
+    setState(() => inProgressTaskList = true);
+
+    NetworkResponse networkResponse =
+        await NetworkCaller.getRequest(Urls.createNewTask);
+
+    if (networkResponse.isSuccess) {
+      final taskListModel =
+          TaskListModel.fromJson(networkResponse.responseData);
+      newTaskList = taskListModel.taskList ?? [];
+    } else {
+      ToastMessage.errorToast(networkResponse.errorMessage);
+    }
+    setState(() => inProgressTaskList = false);
   }
 }
