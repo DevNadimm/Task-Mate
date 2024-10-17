@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/cancelled_task_screen.dart';
-import 'package:task_mate/ui/screens/completed_task_screen.dart';
-import 'package:task_mate/ui/screens/new_task_screen.dart';
-import 'package:task_mate/ui/screens/progress_task_screen.dart';
-import 'package:task_mate/ui/widgets/custom_app_bar.dart';
+import 'package:task_mate/features/tasks/screens/cancelled_task_screen.dart';
+import 'package:task_mate/features/tasks/screens/completed_task_screen.dart';
+import 'package:task_mate/features/tasks/screens/new_task_screen.dart';
+import 'package:task_mate/features/tasks/screens/progress_task_screen.dart';
+import 'package:task_mate/shared/widgets/custom_app_bar.dart';
 
 class MainBottomNavBarScreen extends StatefulWidget {
   const MainBottomNavBarScreen({super.key});

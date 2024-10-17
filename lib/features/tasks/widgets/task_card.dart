@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/data/utils/colors.dart';
+import 'package:task_mate/core/utils/colors.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard(

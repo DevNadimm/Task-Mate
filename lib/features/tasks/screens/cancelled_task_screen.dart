@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/widgets/task_card.dart';
+import 'package:task_mate/features/tasks/widgets/task_card.dart';
 
-class ProgressTaskScreen extends StatelessWidget {
-  const ProgressTaskScreen({super.key});
+class CancelledTaskScreen extends StatelessWidget {
+  const CancelledTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

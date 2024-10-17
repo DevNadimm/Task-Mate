@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
-import 'package:task_mate/ui/widgets/custom_app_bar.dart';
-import 'package:task_mate/ui/widgets/image_background.dart';
+import 'package:task_mate/features/home/screens/main_bottom_nav_bar_screen.dart';
+import 'package:task_mate/shared/widgets/custom_app_bar.dart';
+import 'package:task_mate/shared/widgets/image_background.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});

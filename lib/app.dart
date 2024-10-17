@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/data/utils/colors.dart';
-import 'package:task_mate/ui/screens/splash_screen.dart';
+import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/features/auth/screens/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});

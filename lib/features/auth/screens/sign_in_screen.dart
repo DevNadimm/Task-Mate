@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/data/models/network_response.dart';
-import 'package:task_mate/data/services/network_caller.dart';
-import 'package:task_mate/data/utils/toast_message.dart';
-import 'package:task_mate/data/utils/urls.dart';
-import 'package:task_mate/ui/controller/auth_controller.dart';
-import 'package:task_mate/ui/screens/auth/forgot_password_email_address.dart';
-import 'package:task_mate/ui/screens/auth/sign_up_screen.dart';
-import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
-import 'package:task_mate/ui/widgets/image_background.dart';
+import 'package:task_mate/core/utils/toast_message.dart';
+import 'package:task_mate/core/utils/urls.dart';
+import 'package:task_mate/core/network/network_response.dart';
+import 'package:task_mate/core/network/network_caller.dart';
+import 'package:task_mate/controllers/auth_controller.dart';
+import 'package:task_mate/features/auth/screens/forgot_password_email_address.dart';
+import 'package:task_mate/features/auth/screens/sign_up_screen.dart';
+import 'package:task_mate/features/home/screens/main_bottom_nav_bar_screen.dart';
+import 'package:task_mate/shared/widgets/image_background.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});

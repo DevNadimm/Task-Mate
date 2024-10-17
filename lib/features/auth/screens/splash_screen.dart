@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:task_mate/ui/controller/auth_controller.dart';
-import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
-import 'package:task_mate/ui/screens/main_bottom_nav_bar_screen.dart';
-import '../widgets/image_background.dart';
+import 'package:task_mate/controllers/auth_controller.dart';
+import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
+import 'package:task_mate/features/home/screens/main_bottom_nav_bar_screen.dart';
+import '../../../shared/widgets/image_background.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

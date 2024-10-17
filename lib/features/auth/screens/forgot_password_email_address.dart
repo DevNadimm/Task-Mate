@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/data/models/network_response.dart';
-import 'package:task_mate/data/services/network_caller.dart';
-import 'package:task_mate/data/utils/toast_message.dart';
-import 'package:task_mate/data/utils/urls.dart';
-import 'package:task_mate/ui/screens/auth/forgot_password_pin_verification.dart';
-import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
-import 'package:task_mate/ui/widgets/image_background.dart';
+import 'package:task_mate/core/utils/toast_message.dart';
+import 'package:task_mate/core/utils/urls.dart';
+import 'package:task_mate/core/network/network_response.dart';
+import 'package:task_mate/core/network/network_caller.dart';
+import 'package:task_mate/features/auth/screens/forgot_password_pin_verification.dart';
+import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
+import 'package:task_mate/shared/widgets/image_background.dart';
 
 class ForgotPasswordEmailAddress extends StatefulWidget {
   const ForgotPasswordEmailAddress({super.key});

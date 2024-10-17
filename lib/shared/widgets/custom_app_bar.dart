@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:task_mate/data/utils/colors.dart';
-import 'package:task_mate/data/utils/toast_message.dart';
-import 'package:task_mate/ui/controller/auth_controller.dart';
-import 'package:task_mate/ui/screens/auth/sign_in_screen.dart';
-import 'package:task_mate/ui/screens/update_profile_screen.dart';
+import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/toast_message.dart';
+import 'package:task_mate/controllers/auth_controller.dart';
+import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
+import 'package:task_mate/features/auth/screens/update_profile_screen.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   CustomAppBar({super.key, this.isUpdateProfileScreen = false});
