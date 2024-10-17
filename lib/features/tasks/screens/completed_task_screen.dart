@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 
-class CompletedTaskScreen extends StatelessWidget {
+class CompletedTaskScreen extends StatefulWidget {
   const CompletedTaskScreen({super.key});
 
+  @override
+  State<CompletedTaskScreen> createState() => _CompletedTaskScreenState();
+}
+
+class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,12 +22,9 @@ class CompletedTaskScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 10,
               itemBuilder: (context, index) {
-                return const TaskCard(
-                  title: 'Title is here',
-                  subTitle:
-                      'This is subtitle. when an unknown printer took a galley of type and scrambled it to.',
-                  date: 'Date: 02/02/2025',
-                );
+                // return TaskCard(
+                //
+                // );
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 8);
