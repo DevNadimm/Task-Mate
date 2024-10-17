@@ -4,9 +4,14 @@ import 'package:task_mate/features/tasks/widgets/task_card.dart';
 import 'package:task_mate/features/tasks/widgets/task_summery_card.dart';
 import 'package:task_mate/features/tasks/screens/add_new_task_screen.dart';
 
-class NewTaskScreen extends StatelessWidget {
+class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
 
+  @override
+  State<NewTaskScreen> createState() => _NewTaskScreenState();
+}
+
+class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
