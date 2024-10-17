@@ -17,12 +17,7 @@ class ProgressTaskScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: 10,
               itemBuilder: (context, index) {
-                return const TaskCard(
-                  title: 'Title is here',
-                  subTitle:
-                      'This is subtitle. when an unknown printer took a galley of type and scrambled it to.',
-                  date: 'Date: 02/02/2025',
-                );
+                // return TaskCard();
               },
               separatorBuilder: (context, index) {
                 return const SizedBox(height: 8);
