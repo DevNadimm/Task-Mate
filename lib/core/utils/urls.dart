@@ -8,4 +8,6 @@ class Urls {
   static String createTask = '$baseUrl/createTask';
   static String createNewTask = '$baseUrl/listTaskByStatus/New';
   static String createCompletedTask = '$baseUrl/listTaskByStatus/Completed';
+  static String createCancelledTask = '$baseUrl/listTaskByStatus/Cancelled';
+  static String createProgressTask = '$baseUrl/listTaskByStatus/Progress';
 }
