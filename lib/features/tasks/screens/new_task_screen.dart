@@ -95,7 +95,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     setState(() => inProgressTaskList = true);
 
     NetworkResponse networkResponse =
-        await NetworkCaller.getRequest(Urls.createNewTask);
+        await NetworkCaller.getRequest(Urls.getNewTask);
 
     if (networkResponse.isSuccess) {
       final taskListModel =
