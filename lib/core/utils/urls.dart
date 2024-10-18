@@ -6,8 +6,8 @@ class Urls {
   static String recoverVerifyOtp = '$baseUrl/RecoverVerifyOtp/';
   static String recoverResetPassword = '$baseUrl/RecoverResetPassword';
   static String createTask = '$baseUrl/createTask';
-  static String createNewTask = '$baseUrl/listTaskByStatus/New';
-  static String createCompletedTask = '$baseUrl/listTaskByStatus/Completed';
-  static String createCancelledTask = '$baseUrl/listTaskByStatus/Cancelled';
-  static String createProgressTask = '$baseUrl/listTaskByStatus/Progress';
+  static String getNewTask = '$baseUrl/listTaskByStatus/New';
+  static String getCompletedTask = '$baseUrl/listTaskByStatus/Completed';
+  static String getCancelledTask = '$baseUrl/listTaskByStatus/Cancelled';
+  static String getProgressTask = '$baseUrl/listTaskByStatus/Progress';
 }
