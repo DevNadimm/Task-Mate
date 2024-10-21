@@ -81,13 +81,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
-  void _onTapBottomNavBar(BuildContext context) {
-    Navigator.push(
+  Future<void> _onTapBottomNavBar(BuildContext context) async {
+    final shouldRefresh = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => const AddNewTaskScreen(),
       ),
     );
+    if (shouldRefresh == true) {
+      _getNewTaskList();
+    }
   }
 
   Future _getNewTaskList() async {
