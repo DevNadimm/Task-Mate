@@ -37,11 +37,8 @@ class _TaskCardState extends State<TaskCard> {
             ),
             const SizedBox(height: 05),
             Text(
-              'Date: ${widget.task.createdDate}' ?? '',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontWeight: FontWeight.w500),
+              'Date: ${widget.task.createdDate}',
+              style: Theme.of(context).textTheme.bodyLarge!,
             ),
             _buildRowSection(context),
           ],
