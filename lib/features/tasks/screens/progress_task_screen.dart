@@ -44,6 +44,7 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
                 itemBuilder: (context, index) {
                   return TaskCard(
                     task: progressTaskList[index],
+                    refreshTaskList: () => _getProgressTaskList,
                   );
                 },
                 separatorBuilder: (context, index) {

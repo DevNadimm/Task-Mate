@@ -5,10 +5,11 @@ import 'package:task_mate/models/task_model.dart';
 class TaskCard extends StatefulWidget {
   const TaskCard({
     super.key,
-    required this.task,
+    required this.task, required this.refreshTaskList,
   });
 
   final TaskModel task;
+  final VoidCallback refreshTaskList;
 
   @override
   State<TaskCard> createState() => _TaskCardState();

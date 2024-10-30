@@ -63,6 +63,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   itemBuilder: (context, index) {
                     return TaskCard(
                       task: newTaskList[index],
+                      refreshTaskList: () => _getNewTaskList,
                     );
                   },
                   separatorBuilder: (context, index) {

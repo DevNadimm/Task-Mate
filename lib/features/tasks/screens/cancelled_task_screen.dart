@@ -42,7 +42,10 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: cancelledTaskList.length,
                 itemBuilder: (context, index) {
-                  return TaskCard(task: cancelledTaskList[index]);
+                  return TaskCard(
+                    task: cancelledTaskList[index],
+                    refreshTaskList: () => _getCancelledTaskList,
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 8);
