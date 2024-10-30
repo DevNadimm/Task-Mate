@@ -54,7 +54,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                if (taskStatusCountList.length == 4) buildSummery(),
+                buildSummery(),
                 const SizedBox(height: 10),
                 ListView.separated(
                   shrinkWrap: true,
@@ -92,16 +92,12 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
 
   Widget buildSummery() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TaskSummeryCard(title: 'New', count: taskStatusCountList[0].sum ?? 0),
-        TaskSummeryCard(
-            title: 'Completed', count: taskStatusCountList[1].sum ?? 0),
-        TaskSummeryCard(
-            title: 'Cancelled', count: taskStatusCountList[2].sum ?? 0),
-        TaskSummeryCard(
-            title: 'Progress', count: taskStatusCountList[3].sum ?? 0),
-      ],
+      children: taskStatusCountList.map((task) {
+        return TaskSummeryCard(
+          id: task.id!,
+          sum: task.sum!,
+        );
+      }).toList(),
     );
   }
 

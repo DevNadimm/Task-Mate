@@ -1,11 +1,11 @@
 class TaskStatusModel {
-  String? sId;
+  String? id;
   int? sum;
 
-  TaskStatusModel({this.sId, this.sum});
+  TaskStatusModel({this.id, this.sum});
 
   TaskStatusModel.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+    id = json['_id'];
     sum = json['sum'];
   }
 }

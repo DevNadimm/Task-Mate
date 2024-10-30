@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TaskSummeryCard extends StatelessWidget {
-  const TaskSummeryCard({super.key, required this.title, required this.count});
+  const TaskSummeryCard({super.key, required this.id, required this.sum});
 
-  final int count;
-  final String title;
+  final int sum;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,12 @@ class TaskSummeryCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '$count',
+                '$sum',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               FittedBox(
                 child: Text(
-                  title,
+                  id,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
