@@ -39,12 +39,15 @@ class _TaskCardState extends State<TaskCard> {
             const SizedBox(height: 5),
             Text(
               widget.task.description ?? 'No Description',
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .copyWith(color: Colors.black.withOpacity(0.7)),
             ),
             const SizedBox(height: 5),
             Text(
               'Date: ${widget.task.createdDate ?? 'N/A'}',
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             _buildRowSection(
               context: context,
