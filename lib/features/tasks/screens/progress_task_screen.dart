@@ -28,38 +28,46 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            Visibility(
-              visible: !inProgressTaskList,
-              replacement: const Center(
-                child: CircularProgressIndicator(),
+      child: Visibility(
+        visible: !inProgressTaskList,
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              Visibility(
+                visible: !inProgressTaskList,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: progressTaskList.length,
+                  itemBuilder: (context, index) {
+                    return TaskCard(
+                      task: progressTaskList[index],
+                      refreshTaskList: () => setState(() {
+                        _getProgressTaskList();
+                      }),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8);
+                  },
+                ),
               ),
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: progressTaskList.length,
-                itemBuilder: (context, index) {
-                  return TaskCard(
-                    task: progressTaskList[index],
-                    refreshTaskList: () => _getProgressTaskList,
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 8);
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future _getProgressTaskList() async {
+  Future<void> _getProgressTaskList() async {
     progressTaskList.clear();
     setState(() => inProgressTaskList = true);
 

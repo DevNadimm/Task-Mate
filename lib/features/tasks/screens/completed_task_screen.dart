@@ -28,38 +28,40 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            Visibility(
-              visible: !inProgressTaskList,
-              replacement: const Center(
-                child: CircularProgressIndicator(),
-              ),
-              child: ListView.separated(
+      child: Visibility(
+        visible: !inProgressTaskList,
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: completedTaskList.length,
                 itemBuilder: (context, index) {
                   return TaskCard(
                     task: completedTaskList[index],
-                    refreshTaskList: () => _getCompletedTaskList,
+                    refreshTaskList: () => setState(() {
+                      _getCompletedTaskList();
+                    }),
                   );
                 },
                 separatorBuilder: (context, index) {
                   return const SizedBox(height: 8);
                 },
               ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future _getCompletedTaskList() async {
+  Future<void> _getCompletedTaskList() async {
     completedTaskList.clear();
     setState(() => inProgressTaskList = true);
 

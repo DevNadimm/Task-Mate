@@ -28,38 +28,45 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
-            Visibility(
-              visible: !inProgressTaskList,
-              replacement: const Center(
-                child: CircularProgressIndicator(),
+      child: Visibility(
+        visible: !inProgressTaskList,
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 16),
+              Visibility(
+                visible: !inProgressTaskList,
+                replacement: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: cancelledTaskList.length,
+                  itemBuilder: (context, index) {
+                    return TaskCard(
+                        task: cancelledTaskList[index],
+                        refreshTaskList: () => setState(() {
+                              _getCancelledTaskList();
+                            }));
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(height: 8);
+                  },
+                ),
               ),
-              child: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: cancelledTaskList.length,
-                itemBuilder: (context, index) {
-                  return TaskCard(
-                    task: cancelledTaskList[index],
-                    refreshTaskList: () => _getCancelledTaskList,
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 8);
-                },
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future _getCancelledTaskList() async {
+  Future<void> _getCancelledTaskList() async {
     cancelledTaskList.clear();
     setState(() => inProgressTaskList = true);
 
