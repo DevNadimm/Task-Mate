@@ -71,7 +71,7 @@ class _TaskCardState extends State<TaskCard> {
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: ['New', 'Completed', 'Cancelled', 'In Progress'].map(
+            children: ['New', 'Completed', 'Cancelled', 'Progress'].map(
               (status) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -176,7 +176,7 @@ class _TaskCardState extends State<TaskCard> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40),
           ),
-          backgroundColor: Colors.blue,
+          backgroundColor: _getStatusColor(task.status.toString()),
           side: BorderSide.none,
         ),
         const Spacer(),
@@ -211,7 +211,7 @@ class _TaskCardState extends State<TaskCard> {
         return Icons.check_circle_rounded;
       case 'Cancelled':
         return Icons.cancel_rounded;
-      case 'In Progress':
+      case 'Progress':
         return Icons.pending;
       default:
         return Icons.info;
@@ -226,7 +226,7 @@ class _TaskCardState extends State<TaskCard> {
         return Colors.green;
       case 'Cancelled':
         return Colors.redAccent;
-      case 'In Progress':
+      case 'Progress':
         return Colors.orangeAccent;
       default:
         return Colors.grey;
