@@ -8,6 +8,8 @@ import 'package:task_mate/controllers/auth_controller.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 
 class NetworkCaller {
+  NetworkCaller._();
+
   static Future<NetworkResponse> getRequest(String url) async {
     try {
       final uri = Uri.parse(url);

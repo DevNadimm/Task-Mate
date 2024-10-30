@@ -13,4 +13,5 @@ class Urls {
   static String getCancelledTask = '$baseUrl/listTaskByStatus/Cancelled';
   static String getProgressTask = '$baseUrl/listTaskByStatus/Progress';
   static String getDeleteTask = '$baseUrl/deleteTask/';
+  static String getTaskStatusCount = '$baseUrl/taskStatusCount';
 }

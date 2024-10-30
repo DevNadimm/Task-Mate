@@ -9,6 +9,8 @@ import 'package:task_mate/features/tasks/widgets/task_summery_card.dart';
 import 'package:task_mate/features/tasks/screens/add_new_task_screen.dart';
 import 'package:task_mate/models/task_list_model.dart';
 import 'package:task_mate/models/task_model.dart';
+import 'package:task_mate/models/task_status_count_model.dart';
+import 'package:task_mate/models/task_status_model.dart';
 
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({super.key});
@@ -19,39 +21,42 @@ class NewTaskScreen extends StatefulWidget {
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
   bool inProgressTaskList = false;
+  bool inProgressStatusCount = false;
+  bool inProgress = true;
   List<TaskModel> newTaskList = [];
+  List<TaskStatusModel> taskStatusCountList = [];
 
   @override
   void initState() {
-    _getNewTaskList();
     super.initState();
+    _fetchData();
+  }
+
+  void _fetchData() async {
+    final taskStatusCount = _getTaskStatusCount();
+    final newTaskList = _getNewTaskList();
+
+    await Future.wait([taskStatusCount, newTaskList]);
+    setState(() {
+      inProgress = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TaskSummeryCard(title: 'New', count: 09),
-                  TaskSummeryCard(title: 'Completed', count: 09),
-                  TaskSummeryCard(title: 'Cancelled', count: 09),
-                  TaskSummeryCard(title: 'Progress ', count: 09),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Visibility(
-                visible: !inProgressTaskList,
-                replacement: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                child: ListView.separated(
+      body: Visibility(
+        visible: !inProgress,
+        replacement: const Center(child: CircularProgressIndicator()),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                if (taskStatusCountList.length == 4) buildSummery(),
+                const SizedBox(height: 10),
+                ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: newTaskList.length,
@@ -64,9 +69,9 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     return const SizedBox(height: 8);
                   },
                 ),
-              ),
-              const SizedBox(height: 16),
-            ],
+                const SizedBox(height: 16),
+              ],
+            ),
           ),
         ),
       ),
@@ -81,6 +86,21 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
+  Widget buildSummery() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TaskSummeryCard(title: 'New', count: taskStatusCountList[0].sum ?? 0),
+        TaskSummeryCard(
+            title: 'Completed', count: taskStatusCountList[1].sum ?? 0),
+        TaskSummeryCard(
+            title: 'Cancelled', count: taskStatusCountList[2].sum ?? 0),
+        TaskSummeryCard(
+            title: 'Progress', count: taskStatusCountList[3].sum ?? 0),
+      ],
+    );
+  }
+
   Future<void> _onTapBottomNavBar(BuildContext context) async {
     final shouldRefresh = await Navigator.push(
       context,
@@ -89,11 +109,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       ),
     );
     if (shouldRefresh == true) {
-      _getNewTaskList();
+      await Future.wait([_getNewTaskList(), _getTaskStatusCount()]);
     }
   }
 
-  Future _getNewTaskList() async {
+  Future<void> _getNewTaskList() async {
     newTaskList.clear();
     setState(() => inProgressTaskList = true);
 
@@ -108,5 +128,22 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       ToastMessage.errorToast(networkResponse.errorMessage);
     }
     setState(() => inProgressTaskList = false);
+  }
+
+  Future<void> _getTaskStatusCount() async {
+    taskStatusCountList.clear();
+    setState(() => inProgressStatusCount = true);
+
+    NetworkResponse networkResponse =
+        await NetworkCaller.getRequest(Urls.getTaskStatusCount);
+
+    if (networkResponse.isSuccess) {
+      final taskStatusCount =
+          TaskStatusCountModel.fromJson(networkResponse.responseData);
+      taskStatusCountList = taskStatusCount.taskStatusCountList ?? [];
+    } else {
+      ToastMessage.errorToast(networkResponse.errorMessage);
+    }
+    setState(() => inProgressStatusCount = false);
   }
 }
