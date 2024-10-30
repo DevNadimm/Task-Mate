@@ -126,6 +126,7 @@ class MyApp extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
+      textStyle: const TextStyle(fontWeight: FontWeight.w500)
     ),
   );
 }
