@@ -15,4 +15,5 @@ class Urls {
   static String getDeleteTask = '$baseUrl/deleteTask/';
   static String getTaskStatusCount = '$baseUrl/taskStatusCount';
   static String getUpdateTaskStatus = '$baseUrl/updateTaskStatus/';
+  static String getProfileDetails = '$baseUrl/ProfileDetails';
 }
