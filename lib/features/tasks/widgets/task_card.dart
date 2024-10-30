@@ -48,8 +48,8 @@ class _TaskCardState extends State<TaskCard> {
             ),
             _buildRowSection(
               context: context,
-              id: widget.task.id.toString(),
               refreshTaskList: widget.refreshTaskList,
+              task: widget.task,
             ),
           ],
         ),
@@ -156,17 +156,17 @@ class _TaskCardState extends State<TaskCard> {
 
   Widget _buildRowSection({
     required BuildContext context,
-    required String id,
+    required TaskModel task,
     required VoidCallback refreshTaskList,
   }) {
     return Row(
       children: [
         Chip(
-          label: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+          label: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              'New',
-              style: TextStyle(
+              task.status.toString(),
+              style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontSize: 14,
@@ -190,7 +190,7 @@ class _TaskCardState extends State<TaskCard> {
         IconButton(
           onPressed: () {
             _getDeleteTask(
-              id: id,
+              id: task.id.toString(),
               refreshTaskList: refreshTaskList,
             );
           },
