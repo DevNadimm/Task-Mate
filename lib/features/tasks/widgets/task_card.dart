@@ -3,6 +3,7 @@ import 'package:readmore/readmore.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
 import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/date.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/models/task_model.dart';
@@ -53,7 +54,7 @@ class _TaskCardState extends State<TaskCard> {
             ),
             const SizedBox(height: 5),
             Text(
-              'Date: ${widget.task.createdDate ?? 'N/A'}',
+              DateFormater.formatDate(widget.task.createdDate!),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             _buildRowSection(
