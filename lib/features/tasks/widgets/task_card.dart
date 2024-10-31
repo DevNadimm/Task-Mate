@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readmore/readmore.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
 import 'package:task_mate/core/utils/colors.dart';
@@ -37,12 +38,18 @@ class _TaskCardState extends State<TaskCard> {
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
-            Text(
+            ReadMoreText(
               widget.task.description ?? 'No Description',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .copyWith(color: Colors.black.withOpacity(0.7)),
+              trimMode: TrimMode.Line,
+              trimLines: 3,
+              trimCollapsedText: ' See More',
+              trimExpandedText: ' See Less',
+              textAlign: TextAlign.justify,
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    color: Colors.black.withOpacity(0.7),
+                  ),
+              moreStyle: Theme.of(context).textTheme.titleMedium,
+              lessStyle: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 5),
             Text(
