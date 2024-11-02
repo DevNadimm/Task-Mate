@@ -25,20 +25,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
             const SizedBox(width: 10),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Test User',
-                  style: TextStyle(
+                  AuthController.userModel?.fullName?? 'No Name Available',
+                  style: const TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  'test@gmail.com',
-                  style: TextStyle(
+                  AuthController.userModel?.email ?? 'No Email Available',
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
                     color: Colors.white,

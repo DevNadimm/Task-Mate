@@ -7,6 +7,7 @@ import 'package:task_mate/controllers/auth_controller.dart';
 import 'package:task_mate/features/auth/screens/forgot_password_email_address.dart';
 import 'package:task_mate/features/auth/screens/sign_up_screen.dart';
 import 'package:task_mate/features/home/screens/main_bottom_nav_bar_screen.dart';
+import 'package:task_mate/models/login_model.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -157,14 +158,18 @@ class _SignInScreenState extends State<SignInScreen> {
       "password": _passwordTEController.text.trim(),
     };
 
-    NetworkResponse networkResponse =
-        await NetworkCaller.postRequest(url: Urls.login, body: requestBody);
+    NetworkResponse networkResponse = await NetworkCaller.postRequest(
+      url: Urls.login,
+      body: requestBody,
+    );
 
     setState(() => inProgress = false);
 
     if (networkResponse.isSuccess) {
-      await AuthController.saveAccessToken(
-          networkResponse.responseData['token']);
+      LoginModel loginModel = LoginModel.fromJson(networkResponse.responseData);
+      await AuthController.saveAccessToken(loginModel.token!);
+      await AuthController.saveUserData(loginModel.data!);
+      AuthController.getUserData();
       ToastMessage.successToast('Sign in successful!');
       _clearFields();
       Navigator.pushReplacement(
