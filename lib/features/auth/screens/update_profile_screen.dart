@@ -131,13 +131,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       child: Stack(
         children: [
           CircleAvatar(
-            backgroundColor: Colors.grey,
+            backgroundColor: const Color(0XFF44494f),
             radius: 53,
             child: CircleAvatar(
               backgroundImage: _selectedImage != null
                   ? FileImage(File(_selectedImage!.path))
-                  : const AssetImage('assets/images/avatar.jpeg')
-                      as ImageProvider,
+                  : AuthController.userModel?.photo != null
+                      ? MemoryImage(base64Decode(AuthController.userModel!.photo!))
+                      : const AssetImage('assets/images/avatar.jpeg') as ImageProvider,
               radius: 50,
             ),
           ),
@@ -147,7 +148,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             child: GestureDetector(
               onTap: _pickImage,
               child: const CircleAvatar(
-                backgroundColor: Colors.grey,
+                backgroundColor: Color(0XFF44494f),
                 radius: 17,
                 child: Icon(
                   CupertinoIcons.photo,
