@@ -11,6 +11,7 @@ class TaskSummeryCard extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 4.4,
       child: Card(
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

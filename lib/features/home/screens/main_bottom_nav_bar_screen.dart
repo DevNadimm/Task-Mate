@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/features/tasks/screens/cancelled_task_screen.dart';
 import 'package:task_mate/features/tasks/screens/completed_task_screen.dart';
 import 'package:task_mate/features/tasks/screens/new_task_screen.dart';
@@ -24,10 +25,12 @@ class _MainBottomNavBarScreenState extends State<MainBottomNavBarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(),
       body: _screens[currentIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: currentIndex,
+        backgroundColor: backgroundColor,
         onDestinationSelected: ((index) {
           currentIndex = index;
           setState(() {});

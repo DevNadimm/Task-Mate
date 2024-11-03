@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Task-Mate',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
         useMaterial3: true,
         textTheme: _textTheme,
         inputDecorationTheme: _inputDecorationTheme,
@@ -106,6 +106,13 @@ class MyApp extends StatelessWidget {
     borderSide: BorderSide(width: 2, color: Colors.grey),
   );
 
+  static const OutlineInputBorder _outlineErrorInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(8.0),
+    ),
+    borderSide: BorderSide(width: 2, color: Colors.red),
+  );
+
   final InputDecorationTheme _inputDecorationTheme = const InputDecorationTheme(
     filled: true,
     fillColor: Colors.white,
@@ -113,6 +120,7 @@ class MyApp extends StatelessWidget {
     focusedBorder: _outlineInputBorder,
     enabledBorder: _outlineInputBorder,
     disabledBorder: _outlineInputBorder,
+    errorBorder: _outlineErrorInputBorder,
     hintStyle: TextStyle(
       color: Colors.black54,
       fontWeight: FontWeight.w500,

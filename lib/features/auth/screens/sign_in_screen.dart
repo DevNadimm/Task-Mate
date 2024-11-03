@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/core/network/network_response.dart';
@@ -140,7 +141,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(color: Colors.green),
+                      .copyWith(color: primaryColor),
                 ),
               ),
             ],

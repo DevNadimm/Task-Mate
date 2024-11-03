@@ -45,6 +45,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Visibility(
         visible: !inProgress,
         replacement: const Center(child: CircularProgressIndicator()),

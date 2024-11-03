@@ -26,6 +26,7 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -95,7 +96,7 @@ class _TaskCardState extends State<TaskCard> {
                       _getStatusIcon(status),
                       color: _getStatusColor(status),
                     ),
-                    tileColor: Colors.green.withOpacity(0.1),
+                    tileColor: primaryColor.withOpacity(0.1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/core/network/network_response.dart';
@@ -139,7 +140,7 @@ class _ForgotPasswordPinVerificationState
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
-                  .copyWith(color: Colors.green),
+                  .copyWith(color: primaryColor),
             ),
           ),
         ],

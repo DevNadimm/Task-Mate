@@ -14,13 +14,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      foregroundColor: Colors.white,
+      foregroundColor: foregroundColor,
       title: GestureDetector(
         onTap: () => isUpdateProfileScreen ? null : _onTapProfile(context),
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: primaryColor.withOpacity(0.2),
+              backgroundColor: backgroundColor.withOpacity(0.2),
               backgroundImage: AuthController.userModel?.photo != null
                   ? MemoryImage(base64Decode(AuthController.userModel!.photo!))
                   : const AssetImage('assets/images/avatar.jpeg'),
@@ -31,18 +31,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Text(
                   AuthController.userModel?.fullName ?? 'No Name Available',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white,
+                    color: foregroundColor,
                   ),
                 ),
                 Text(
                   AuthController.userModel?.email ?? 'No Email Available',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white,
+                    color: foregroundColor,
                   ),
                 ),
               ],
@@ -57,7 +57,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             icon: const Icon(Icons.logout),
           ),
       ],
-      backgroundColor: primaryColor,
+      backgroundColor: backgroundColor,
+      scrolledUnderElevation: 0,
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1.0),
+        child: Container(
+          height: 1.0,
+          color: Colors.grey.withOpacity(0.5),
+        ),
+      ),
     );
   }
 
