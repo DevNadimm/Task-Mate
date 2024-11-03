@@ -112,6 +112,7 @@ class MyApp extends StatelessWidget {
     border: _outlineInputBorder,
     focusedBorder: _outlineInputBorder,
     enabledBorder: _outlineInputBorder,
+    disabledBorder: _outlineInputBorder,
     hintStyle: TextStyle(
       color: Colors.black54,
       fontWeight: FontWeight.w500,

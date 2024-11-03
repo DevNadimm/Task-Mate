@@ -16,4 +16,5 @@ class Urls {
   static String getTaskStatusCount = '$baseUrl/taskStatusCount';
   static String getUpdateTaskStatus = '$baseUrl/updateTaskStatus/';
   static String getProfileDetails = '$baseUrl/ProfileDetails';
+  static String getProfileUpdate = '$baseUrl/ProfileUpdate';
 }
