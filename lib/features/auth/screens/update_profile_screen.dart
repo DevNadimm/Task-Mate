@@ -238,11 +238,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       AuthController.saveUserData(userModel);
       debugPrint("Image Base64: ${AuthController.userModel!.photo}");
       ToastMessage.successToast("Profile updated");
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const MainBottomNavBarScreen()),
-        (route) => false,
-      );
     } else {
       ToastMessage.errorToast(networkResponse.errorMessage);
     }

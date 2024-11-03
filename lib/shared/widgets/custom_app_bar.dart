@@ -6,17 +6,44 @@ import 'package:task_mate/controllers/auth_controller.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/features/auth/screens/update_profile_screen.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  CustomAppBar({super.key, this.isUpdateProfileScreen = false});
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const CustomAppBar({super.key, this.isUpdateProfileScreen = false});
 
-  bool isUpdateProfileScreen;
+  final bool isUpdateProfileScreen;
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  String? photo;
+  String? fullName;
+  String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  void loadUserData() {
+    setState(() {
+      photo = AuthController.userModel?.photo;
+      fullName = AuthController.userModel?.fullName;
+      email = AuthController.userModel?.email;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       foregroundColor: foregroundColor,
       title: GestureDetector(
-        onTap: () => isUpdateProfileScreen ? null : _onTapProfile(context),
+        onTap: () =>
+            widget.isUpdateProfileScreen ? null : _onTapProfile(context),
         child: Row(
           children: [
             CircleAvatar(
@@ -30,7 +57,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AuthController.userModel?.fullName ?? 'No Name Available',
+                  fullName ?? 'No Name Available',
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
@@ -38,7 +65,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
                 Text(
-                  AuthController.userModel?.email ?? 'No Email Available',
+                  email ?? 'No Email Available',
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -46,12 +73,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
       actions: [
-        if (isUpdateProfileScreen)
+        if (widget.isUpdateProfileScreen)
           IconButton(
             onPressed: () => _onTapLogOut(context),
             icon: const Icon(Icons.logout),
@@ -69,27 +96,24 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
+  void _onTapProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const UpdateProfileScreen(),
+      ),
+    ).then((_) => loadUserData());
+  }
 
-void _onTapProfile(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const UpdateProfileScreen(),
-    ),
-  );
-}
-
-void _onTapLogOut(BuildContext context) {
-  AuthController.clearAccessToken();
-  ToastMessage.successToast('Sign out successful!');
-  Navigator.pushAndRemoveUntil(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const SignInScreen(),
-    ),
-    (predicate) => false,
-  );
+  void _onTapLogOut(BuildContext context) {
+    AuthController.clearAccessToken();
+    ToastMessage.successToast('Sign out successful!');
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SignInScreen(),
+      ),
+      (predicate) => false,
+    );
+  }
 }
