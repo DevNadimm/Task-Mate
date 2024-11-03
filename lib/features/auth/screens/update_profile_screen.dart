@@ -235,6 +235,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (networkResponse.isSuccess) {
       UserModel userModel = UserModel.fromJson(requestBody);
       AuthController.saveUserData(userModel);
+      debugPrint("Image Base64: ${AuthController.userModel!.photo}");
       ToastMessage.successToast("Profile updated");
       Navigator.pushAndRemoveUntil(
         context,
