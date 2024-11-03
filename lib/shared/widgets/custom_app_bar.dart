@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
@@ -20,16 +21,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             CircleAvatar(
               backgroundColor: primaryColor.withOpacity(0.2),
-              backgroundImage: const AssetImage(
-                'assets/images/avatar.jpeg',
-              ),
+              backgroundImage: AuthController.userModel?.photo != null
+                  ? MemoryImage(base64Decode(AuthController.userModel!.photo!))
+                  : const AssetImage('assets/images/avatar.jpeg'),
             ),
             const SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AuthController.userModel?.fullName?? 'No Name Available',
+                  AuthController.userModel?.fullName ?? 'No Name Available',
                   style: const TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
