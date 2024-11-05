@@ -4,6 +4,7 @@ import 'package:task_mate/core/network/network_response.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
+import 'package:task_mate/features/tasks/widgets/no_task_widget.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 import 'package:task_mate/features/tasks/widgets/task_summery_card.dart';
 import 'package:task_mate/features/tasks/screens/add_new_task_screen.dart';
@@ -51,33 +52,42 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         replacement: const Center(child: CircularProgressIndicator()),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                buildSummery(),
-                const SizedBox(height: 10),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: newTaskList.length,
-                  itemBuilder: (context, index) {
-                    return TaskCard(
-                      task: newTaskList[index],
-                      refreshTaskList: () => setState(() {
-                        inProgress = true;
-                        _fetchData();
-                      }),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(height: 8);
-                  },
+          child: taskStatusCountList.isEmpty
+              ? const NoTaskWidget()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      buildSummery(),
+                      const SizedBox(height: 10),
+                      newTaskList.isEmpty
+                          ? const Column(
+                            children: [
+                              SizedBox(height: 48),
+                              NoTaskWidget(),
+                            ],
+                          )
+                          : ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: newTaskList.length,
+                              itemBuilder: (context, index) {
+                                return TaskCard(
+                                  task: newTaskList[index],
+                                  refreshTaskList: () => setState(() {
+                                    inProgress = true;
+                                    _fetchData();
+                                  }),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 8);
+                              },
+                            ),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 16),
-              ],
-            ),
-          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
