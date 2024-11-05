@@ -15,7 +15,7 @@ class NoTaskWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            "Empty Task!",
+            "No Tasks Available!",
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ],
