@@ -59,18 +59,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 Text(
                   fullName ?? 'No Name Available',
                   style: TextStyle(
-                    fontSize: 19,
+                    fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: foregroundColor,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
                 Text(
                   email ?? 'No Email Available',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.w400,
                     color: foregroundColor,
                   ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ],
             ),
