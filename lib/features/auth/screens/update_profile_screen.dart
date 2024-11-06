@@ -211,6 +211,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       "firstName": _firstNameTEController.text.trim(),
       "lastName": _lastNameTEController.text.trim(),
       "mobile": _mobileTEController.text.trim(),
+      "photo": AuthController.userModel?.photo,
     };
 
     if (_passwordTEController.text.isNotEmpty) {

@@ -102,13 +102,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
 
   Widget buildSummery() {
-    return Row(
-      children: taskStatusCountList.map((task) {
-        return TaskSummeryCard(
-          id: task.id!,
-          sum: task.sum!,
-        );
-      }).toList(),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: taskStatusCountList.map((task) {
+          return TaskSummeryCard(
+            id: task.id!,
+            sum: task.sum!,
+          );
+        }).toList(),
+      ),
     );
   }
 
