@@ -17,11 +17,11 @@ Task-Mate is a productivity-focused task management app developed using Flutter.
 
 | Sign In Screen | Sign Up Screen | Add New Task Screen |
 |----------------|----------------|----------------------|
-| ![Sign In Screen](assets/images/screenshots/signup_screen.png) | ![Sign Up Screen](assets/images/screenshots/profile_screen.png) | ![Add New Task Screen](assets/images/screenshots/add_new_task_screen.png) |
+| ![Sign In Screen](assets/screenshots/login_screen.png) | ![Sign Up Screen](assets/screenshots/sign_up_screen.png) | ![Add New Task Screen](assets/screenshots/add_new_task_screen.png) |
 
 | Task List Screen | Update Task Screen | Profile Update Screen |
 |------------------|--------------------|-----------------|
-| ![Task List Screen](assets/images/screenshots/task_list_screen.png) | ![Update Task Screen](assets/images/screenshots/update_task_screen.png) | ![Profile Update Screen](assets/images/screenshots/settings_screen.png) |
+| ![Task List Screen](assets/screenshots/task_list_screen.png) | ![Update Task Screen](assets/screenshots/update_task_screen.png) | ![Profile Update Screen](assets/screenshots/profile_update_screen.png) |
 
 ## 📬 Contact
 
