@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_mate/controllers/controller_binders.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/features/auth/screens/splash_screen.dart';
 
@@ -9,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       navigatorKey: navigatorKey,
       title: 'Task-Mate',
       debugShowCheckedModeBanner: false,
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
         elevatedButtonTheme: _elevatedButtonThemeData,
       ),
       home: const SplashScreen(),
+      initialBinding: ControllerBinders(),
     );
   }
 
