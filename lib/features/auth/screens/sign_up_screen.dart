@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_mate/controllers/sign_up_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
-import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/core/network/network_response.dart';
-import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
@@ -21,7 +20,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
-  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +45,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     const SizedBox(height: 15),
                     SizedBox(
                       width: double.infinity,
-                      child: Visibility(
-                        visible: !inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: ElevatedButton(
-                          onPressed:
-                              inProgress ? null : () => _onTapSignUp(context),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12),
-                            child: Icon(Icons.double_arrow),
-                          ),
-                        ),
+                      child: GetBuilder<SignUpController>(
+                        builder: (controller) {
+                          return Visibility(
+                            visible: !controller.inProgress,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () => _onTapSignUp(context),
+                              child: const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Icon(Icons.double_arrow),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 25),
@@ -168,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () => _onTapSignIn(context),
+            onTap: () => Get.off(const SignInScreen()),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -183,34 +184,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _signUp() async {
-    inProgress = true;
-    setState(() {});
+    final controller = SignUpController.instance;
+    final result = await controller.signUp(
+      _emailTEController.text.trim(),
+      _firstNameTEController.text.trim(),
+      _lastNameTEController.text.trim(),
+      _mobileTEController.text.trim(),
+      _passwordTEController.text.trim(),
+    );
 
-    Map<String, dynamic> requestBody = {
-      "email": _emailTEController.text.trim(),
-      "firstName": _firstNameTEController.text,
-      "lastName": _lastNameTEController.text,
-      "mobile": _mobileTEController.text.trim(),
-      "password": _passwordTEController.text.trim(),
-    };
-
-    NetworkResponse networkResponse = await NetworkCaller.postRequest(
-        url: Urls.registration, body: requestBody);
-
-    inProgress = false;
-    setState(() {});
-
-    if (networkResponse.isSuccess) {
+    if (result) {
       ToastMessage.successToast('Sign up successful!');
       _clearField();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SignInScreen(),
-        ),
-      );
+      Get.off(const SignInScreen());
     } else {
-      ToastMessage.errorToast(networkResponse.errorMessage);
+      ToastMessage.errorToast(controller.errorMessage!);
     }
   }
 
@@ -226,13 +214,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (_globalKey.currentState!.validate()) {
       _signUp();
     }
-  }
-
-  void _onTapSignIn(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const SignInScreen()),
-    );
   }
 
   @override
