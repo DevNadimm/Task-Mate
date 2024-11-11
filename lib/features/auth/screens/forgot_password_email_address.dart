@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_mate/controllers/recover_verify_email.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/core/network/network_response.dart';
-import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/features/auth/screens/forgot_password_pin_verification.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
@@ -20,7 +20,6 @@ class _ForgotPasswordEmailAddressState
     extends State<ForgotPasswordEmailAddress> {
   final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _emailTEController = TextEditingController();
-  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +59,22 @@ class _ForgotPasswordEmailAddressState
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: Visibility(
-                        visible: !inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () => _onTapNextButton(context),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12),
-                            child: Icon(Icons.double_arrow),
-                          ),
-                        ),
+                      child: GetBuilder<RecoverVerifyEmail>(
+                        builder: (controller) {
+                          return Visibility(
+                            visible: !controller.inProgress,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            child: ElevatedButton(
+                              onPressed: () => _onTapNextButton(context),
+                              child: const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: Icon(Icons.double_arrow),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -118,7 +121,7 @@ class _ForgotPasswordEmailAddressState
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () => _onTapSignIn(context),
+            onTap: () => Get.off(const SignInScreen()),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -133,24 +136,17 @@ class _ForgotPasswordEmailAddressState
   }
 
   Future<void> _recoverVerifyEmail(BuildContext context) async {
-    setState(() => inProgress = true);
-
     String email = _emailTEController.text.trim();
     final url = '${Urls.recoverVerifyEmail}$email';
 
-    NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
-    setState(() => inProgress = false);
+    final controller = RecoverVerifyEmail.instance;
+    final result = await controller.recoverVerifyEmail(url);
 
-    if (networkResponse.isSuccess) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ForgotPasswordPinVerification(email: email),
-        ),
-      );
+    if (result) {
+      Get.off(ForgotPasswordPinVerification(email: email));
       _emailTEController.clear();
     } else {
-      ToastMessage.errorToast(networkResponse.errorMessage);
+      ToastMessage.errorToast(controller.errorMessage!);
     }
   }
 
@@ -158,15 +154,6 @@ class _ForgotPasswordEmailAddressState
     if (_globalKey.currentState!.validate()) {
       _recoverVerifyEmail(context);
     }
-  }
-
-  void _onTapSignIn(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignInScreen(),
-      ),
-    );
   }
 
   @override
