@@ -59,7 +59,7 @@ class _ForgotPasswordEmailAddressState
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: GetBuilder<RecoverVerifyEmail>(
+                      child: GetBuilder<RecoverVerifyEmailController>(
                         builder: (controller) {
                           return Visibility(
                             visible: !controller.inProgress,
@@ -139,7 +139,7 @@ class _ForgotPasswordEmailAddressState
     String email = _emailTEController.text.trim();
     final url = '${Urls.recoverVerifyEmail}$email';
 
-    final controller = RecoverVerifyEmail.instance;
+    final controller = RecoverVerifyEmailController.instance;
     final result = await controller.recoverVerifyEmail(url);
 
     if (result) {

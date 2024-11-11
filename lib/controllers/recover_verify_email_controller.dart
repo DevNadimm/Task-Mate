@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
 
-class RecoverVerifyEmail extends GetxController {
-  static final instance = Get.find<RecoverVerifyEmail>();
+class RecoverVerifyEmailController extends GetxController {
+  static final instance = Get.find<RecoverVerifyEmailController>();
 
   bool _inProgress = false;
   bool get inProgress => _inProgress;
