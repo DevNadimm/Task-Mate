@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:task_mate/controllers/pin_verification_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/core/network/network_response.dart';
-import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/features/auth/screens/set_password.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
@@ -23,14 +23,13 @@ class _ForgotPasswordPinVerificationState
     extends State<ForgotPasswordPinVerification> {
   final TextEditingController _pinTEController = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey();
-  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
-        onTap: ()=> FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: ImageBackground(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -57,24 +56,28 @@ class _ForgotPasswordPinVerificationState
                     const SizedBox(height: 15),
                     SizedBox(
                       width: double.infinity,
-                      child: Visibility(
-                        visible: !inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () => _onTapVerify(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Text(
-                              'Verify',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: Colors.white),
+                      child: GetBuilder<PinVerificationController>(
+                        builder: (controller) {
+                          return Visibility(
+                            visible: !controller.inProgress,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
                             ),
-                          ),
-                        ),
+                            child: ElevatedButton(
+                              onPressed: () => _onTapVerify(context),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Text(
+                                  'Verify',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 25),
@@ -134,7 +137,7 @@ class _ForgotPasswordPinVerificationState
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () => _onTapSignIn(context),
+            onTap: () => Get.off(const SignInScreen()),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -149,25 +152,18 @@ class _ForgotPasswordPinVerificationState
   }
 
   Future<void> _recoverVerifyOtp(BuildContext context) async {
-    setState(() => inProgress = true);
-
     final email = widget.email;
     final otp = _pinTEController.text;
     final url = '${Urls.recoverVerifyOtp}$email/$otp';
 
-    NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
-    setState(() => inProgress = false);
+    final controller = PinVerificationController.instance;
+    final result = await controller.recoverVerifyOtp(url);
 
-    if (networkResponse.isSuccess) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SetPassword(email: email,otp: otp,),
-        ),
-      );
+    if (result) {
+      Get.off(SetPassword(email: email, otp: otp));
       _pinTEController.clear();
     } else {
-      ToastMessage.errorToast(networkResponse.errorMessage);
+      ToastMessage.errorToast(controller.errorMessage!);
     }
   }
 
@@ -175,15 +171,6 @@ class _ForgotPasswordPinVerificationState
     if (_globalKey.currentState!.validate()) {
       _recoverVerifyOtp(context);
     }
-  }
-
-  void _onTapSignIn(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignInScreen(),
-      ),
-    );
   }
 
   @override
