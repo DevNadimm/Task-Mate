@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_mate/controllers/recover_verify_email.dart';
+import 'package:task_mate/controllers/recover_verify_email_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
