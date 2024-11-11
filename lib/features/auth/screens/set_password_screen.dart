@@ -6,17 +6,17 @@ import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
-class SetPassword extends StatefulWidget {
-  const SetPassword({super.key, required this.email, required this.otp});
+class SetPasswordScreen extends StatefulWidget {
+  const SetPasswordScreen({super.key, required this.email, required this.otp});
 
   final String email;
   final String otp;
 
   @override
-  State<SetPassword> createState() => _SetPasswordState();
+  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
 }
 
-class _SetPasswordState extends State<SetPassword> {
+class _SetPasswordScreenState extends State<SetPasswordScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _passwordTEController = TextEditingController();
   final TextEditingController _confirmPasswordTEController = TextEditingController();

@@ -5,22 +5,22 @@ import 'package:task_mate/controllers/pin_verification_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/features/auth/screens/set_password.dart';
+import 'package:task_mate/features/auth/screens/set_password_screen.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
-class ForgotPasswordPinVerification extends StatefulWidget {
-  const ForgotPasswordPinVerification({super.key, required this.email});
+class ForgotPasswordPinVerificationScreen extends StatefulWidget {
+  const ForgotPasswordPinVerificationScreen({super.key, required this.email});
 
   final String email;
 
   @override
-  State<ForgotPasswordPinVerification> createState() =>
-      _ForgotPasswordPinVerificationState();
+  State<ForgotPasswordPinVerificationScreen> createState() =>
+      _ForgotPasswordPinVerificationScreenState();
 }
 
-class _ForgotPasswordPinVerificationState
-    extends State<ForgotPasswordPinVerification> {
+class _ForgotPasswordPinVerificationScreenState
+    extends State<ForgotPasswordPinVerificationScreen> {
   final TextEditingController _pinTEController = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey();
 
@@ -160,7 +160,7 @@ class _ForgotPasswordPinVerificationState
     final result = await controller.recoverVerifyOtp(url);
 
     if (result) {
-      Get.off(SetPassword(email: email, otp: otp));
+      Get.off(SetPasswordScreen(email: email, otp: otp));
       _pinTEController.clear();
     } else {
       ToastMessage.errorToast(controller.errorMessage!);

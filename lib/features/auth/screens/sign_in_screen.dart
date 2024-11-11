@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:task_mate/controllers/sign_in_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
-import 'package:task_mate/features/auth/screens/forgot_password_email_address.dart';
+import 'package:task_mate/features/auth/screens/forgot_password_email_address_screen.dart';
 import 'package:task_mate/features/auth/screens/sign_up_screen.dart';
 import 'package:task_mate/features/home/screens/main_bottom_nav_bar_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
@@ -117,7 +117,7 @@ class _SignInScreenState extends State<SignInScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () => Get.off(const ForgotPasswordEmailAddress()),
+            onTap: () => Get.off(const ForgotPasswordEmailAddressScreen()),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(

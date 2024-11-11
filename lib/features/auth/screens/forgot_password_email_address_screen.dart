@@ -4,20 +4,20 @@ import 'package:task_mate/controllers/recover_verify_email_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/features/auth/screens/forgot_password_pin_verification.dart';
+import 'package:task_mate/features/auth/screens/forgot_password_pin_verification_screen.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
-class ForgotPasswordEmailAddress extends StatefulWidget {
-  const ForgotPasswordEmailAddress({super.key});
+class ForgotPasswordEmailAddressScreen extends StatefulWidget {
+  const ForgotPasswordEmailAddressScreen({super.key});
 
   @override
-  State<ForgotPasswordEmailAddress> createState() =>
-      _ForgotPasswordEmailAddressState();
+  State<ForgotPasswordEmailAddressScreen> createState() =>
+      _ForgotPasswordEmailAddressScreenState();
 }
 
-class _ForgotPasswordEmailAddressState
-    extends State<ForgotPasswordEmailAddress> {
+class _ForgotPasswordEmailAddressScreenState
+    extends State<ForgotPasswordEmailAddressScreen> {
   final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _emailTEController = TextEditingController();
 
@@ -143,7 +143,7 @@ class _ForgotPasswordEmailAddressState
     final result = await controller.recoverVerifyEmail(url);
 
     if (result) {
-      Get.off(ForgotPasswordPinVerification(email: email));
+      Get.off(ForgotPasswordPinVerificationScreen(email: email));
       _emailTEController.clear();
     } else {
       ToastMessage.errorToast(controller.errorMessage!);
