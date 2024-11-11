@@ -62,11 +62,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       const SizedBox(height: 10),
                       newTaskList.isEmpty
                           ? const Column(
-                            children: [
-                              SizedBox(height: 48),
-                              NoTaskWidget(),
-                            ],
-                          )
+                              children: [
+                                SizedBox(height: 48),
+                                NoTaskWidget(),
+                              ],
+                            )
                           : ListView.separated(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
