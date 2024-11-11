@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:task_mate/controllers/set_password_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
-import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/core/network/network_response.dart';
-import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
@@ -20,16 +19,14 @@ class SetPassword extends StatefulWidget {
 class _SetPasswordState extends State<SetPassword> {
   final GlobalKey<FormState> _globalKey = GlobalKey();
   final TextEditingController _passwordTEController = TextEditingController();
-  final TextEditingController _confirmPasswordTEController =
-      TextEditingController();
-  bool inProgress = false;
+  final TextEditingController _confirmPasswordTEController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: GestureDetector(
-        onTap: ()=> FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: ImageBackground(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -62,24 +59,28 @@ class _SetPasswordState extends State<SetPassword> {
                     ),
                     SizedBox(
                       width: double.infinity,
-                      child: Visibility(
-                        visible: !inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () => _onTapConfirmButton(context),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Text(
-                              'Confirm',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .copyWith(color: Colors.white),
+                      child: GetBuilder<SetPasswordController>(
+                        builder: (controller) {
+                          return Visibility(
+                            visible: !controller.inProgress,
+                            replacement: const Center(
+                              child: CircularProgressIndicator(),
                             ),
-                          ),
-                        ),
+                            child: ElevatedButton(
+                              onPressed: () => _onTapConfirmButton(context),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Text(
+                                  'Confirm',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -149,7 +150,7 @@ class _SetPasswordState extends State<SetPassword> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           GestureDetector(
-            onTap: () => _onTapSignIn(context),
+            onTap: () => Get.off(const SignInScreen()),
             child: Text(
               'Sign In',
               style: Theme.of(context)
@@ -164,32 +165,19 @@ class _SetPasswordState extends State<SetPassword> {
   }
 
   Future<void> _confirmPassword(BuildContext context) async {
-    setState(() => inProgress = true);
+    final controller = SetPasswordController.instance;
+    final result = await controller.setPassword(
+      widget.email,
+      widget.otp,
+      _passwordTEController.text.trim(),
+    );
 
-    final url = Urls.recoverResetPassword;
-    Map<String, dynamic> requestBody = {
-      "email": widget.email,
-      "OTP": widget.otp,
-      "password": _passwordTEController.text.trim()
-    };
-
-    NetworkResponse networkResponse =
-        await NetworkCaller.postRequest(url: url, body: requestBody);
-
-    setState(() => inProgress = false);
-
-    if (networkResponse.isSuccess) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SignInScreen(),
-        ),
-      );
-
+    if (result) {
+      Get.off(const SignInScreen());
       _passwordTEController.clear();
       _confirmPasswordTEController.clear();
     } else {
-      ToastMessage.errorToast(networkResponse.errorMessage);
+      ToastMessage.errorToast(controller.errorMessage!);
     }
   }
 
@@ -197,15 +185,6 @@ class _SetPasswordState extends State<SetPassword> {
     if (_globalKey.currentState!.validate()) {
       _confirmPassword(context);
     }
-  }
-
-  void _onTapSignIn(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SignInScreen(),
-      ),
-    );
   }
 
   @override
