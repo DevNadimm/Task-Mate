@@ -5,6 +5,7 @@ import 'package:task_mate/controllers/recover_verify_email_controller.dart';
 import 'package:task_mate/controllers/set_password_controller.dart';
 import 'package:task_mate/controllers/sign_in_controller.dart';
 import 'package:task_mate/controllers/sign_up_controller.dart';
+import 'package:task_mate/controllers/update_profile_controller.dart';
 
 class ControllerBinders extends Bindings {
   @override
@@ -15,5 +16,6 @@ class ControllerBinders extends Bindings {
     Get.put(PinVerificationController());
     Get.put(SetPasswordController());
     Get.put(BottomNavController());
+    Get.put(UpdateProfileController());
   }
 }
