@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mate/controllers/recover_verify_email_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/features/auth/screens/forgot_password_pin_verification_screen.dart';
@@ -63,9 +64,7 @@ class _ForgotPasswordEmailAddressScreenState
                         builder: (controller) {
                           return Visibility(
                             visible: !controller.inProgress,
-                            replacement: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            replacement: const ProgressIndicatorWidget(),
                             child: ElevatedButton(
                               onPressed: () => _onTapNextButton(context),
                               child: const Padding(

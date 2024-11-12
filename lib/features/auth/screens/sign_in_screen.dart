@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mate/controllers/sign_in_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/features/auth/screens/forgot_password_email_address_screen.dart';
 import 'package:task_mate/features/auth/screens/sign_up_screen.dart';
@@ -48,9 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         builder: (controller) {
                           return Visibility(
                             visible: !controller.inProgress,
-                            replacement: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            replacement: const ProgressIndicatorWidget(),
                             child: ElevatedButton(
                               onPressed: () => _onTapSignIn(context),
                               child: const Padding(

@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:task_mate/controllers/auth_controller.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/models/user_model.dart';
@@ -177,7 +178,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       width: double.infinity,
       child: Visibility(
         visible: !updateProfileInProgress,
-        replacement: const Center(child: CircularProgressIndicator()),
+        replacement: const ProgressIndicatorWidget(),
         child: ElevatedButton(
           onPressed: _onTapUpdateButton,
           child: Padding(

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_mate/controllers/pin_verification_controller.dart';
 import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/features/auth/screens/set_password_screen.dart';
@@ -60,9 +61,7 @@ class _ForgotPasswordPinVerificationScreenState
                         builder: (controller) {
                           return Visibility(
                             visible: !controller.inProgress,
-                            replacement: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                            replacement: const ProgressIndicatorWidget(),
                             child: ElevatedButton(
                               onPressed: () => _onTapVerify(context),
                               child: Padding(
