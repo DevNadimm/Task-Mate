@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await AuthController.getAccessToken();
     if (AuthController.isSignedIn()) {
       AuthController.getUserData();
-      Get.offAll(const MainBottomNavBarScreen());
+      Get.offAll(MainBottomNavBarScreen());
     } else {
       Get.offAll(const SignInScreen());
     }

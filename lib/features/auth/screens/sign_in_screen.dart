@@ -160,7 +160,7 @@ class _SignInScreenState extends State<SignInScreen> {
     if (result) {
       ToastMessage.successToast('Sign in successful!');
       _clearFields();
-      Get.offAll(const MainBottomNavBarScreen());
+      Get.offAll(MainBottomNavBarScreen());
     } else {
       ToastMessage.errorToast(controller.errorMessage!);
     }
