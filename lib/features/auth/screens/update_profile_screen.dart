@@ -2,14 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_mate/controllers/auth_controller.dart';
-import 'package:task_mate/core/network/network_caller.dart';
-import 'package:task_mate/core/network/network_response.dart';
+import 'package:task_mate/controllers/update_profile_controller.dart';
 import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
-import 'package:task_mate/core/utils/urls.dart';
-import 'package:task_mate/models/user_model.dart';
 import 'package:task_mate/shared/widgets/custom_app_bar.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
@@ -27,7 +25,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final TextEditingController _mobileTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool updateProfileInProgress = false;
   XFile? _selectedImage;
 
   @override
@@ -176,22 +173,26 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget _buildUpdateButton() {
     return SizedBox(
       width: double.infinity,
-      child: Visibility(
-        visible: !updateProfileInProgress,
-        replacement: const ProgressIndicatorWidget(),
-        child: ElevatedButton(
-          onPressed: _onTapUpdateButton,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              "Update",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(color: Colors.white),
+      child: GetBuilder<UpdateProfileController>(
+        builder: (controller) {
+          return Visibility(
+            visible: !controller.inProgress,
+            replacement: const ProgressIndicatorWidget(),
+            child: ElevatedButton(
+              onPressed: _onTapUpdateButton,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text(
+                  "Update",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Colors.white),
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -203,44 +204,20 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future<void> _updateProfile() async {
-    setState(() {
-      updateProfileInProgress = true;
-    });
+    final controller = Get.find<UpdateProfileController>();
+    final result = await controller.updateProfile(
+        email: _emailTEController.text.trim(),
+        firstName: _firstNameTEController.text.trim(),
+        lastName: _lastNameTEController.text.trim(),
+        mobile: _mobileTEController.text.trim(),
+        password: _passwordTEController.text.trim(),
+        photo: AuthController.userModel?.photo,
+        selectedImage: _selectedImage);
 
-    Map<String, dynamic> requestBody = {
-      "email": _emailTEController.text.trim(),
-      "firstName": _firstNameTEController.text.trim(),
-      "lastName": _lastNameTEController.text.trim(),
-      "mobile": _mobileTEController.text.trim(),
-      "photo": AuthController.userModel?.photo,
-    };
-
-    if (_passwordTEController.text.isNotEmpty) {
-      requestBody["password"] = _passwordTEController.text.trim();
-    }
-
-    if (_selectedImage != null) {
-      List<int> imageBytes = await _selectedImage!.readAsBytes();
-      String convertedImage = base64Encode(imageBytes);
-      requestBody["photo"] = convertedImage;
-    }
-
-    NetworkResponse networkResponse = await NetworkCaller.postRequest(
-      url: Urls.getProfileUpdate,
-      body: requestBody,
-    );
-
-    setState(() {
-      updateProfileInProgress = false;
-    });
-
-    if (networkResponse.isSuccess) {
-      UserModel userModel = UserModel.fromJson(requestBody);
-      AuthController.saveUserData(userModel);
-      debugPrint("Image Base64: ${AuthController.userModel!.photo}");
+    if (result) {
       ToastMessage.successToast("Profile updated");
     } else {
-      ToastMessage.errorToast(networkResponse.errorMessage);
+      ToastMessage.errorToast(controller.errorMessage!);
     }
   }
 }
