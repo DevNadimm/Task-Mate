@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
 import 'package:task_mate/core/utils/colors.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/features/tasks/widgets/no_task_widget.dart';
@@ -49,7 +50,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       backgroundColor: backgroundColor,
       body: Visibility(
         visible: !inProgress,
-        replacement: const Center(child: CircularProgressIndicator()),
+        replacement: const ProgressIndicatorWidget(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: taskStatusCountList.isEmpty

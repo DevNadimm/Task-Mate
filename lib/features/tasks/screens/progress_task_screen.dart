@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/features/tasks/widgets/no_task_widget.dart';
@@ -31,9 +32,7 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Visibility(
         visible: !inProgressTaskList,
-        replacement: const Center(
-          child: CircularProgressIndicator(),
-        ),
+        replacement: const ProgressIndicatorWidget(),
         child: progressTaskList.isEmpty
             ? const NoTaskWidget()
             : SingleChildScrollView(

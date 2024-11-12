@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/core/network/network_response.dart';
@@ -33,7 +34,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: CustomAppBar(),
+        appBar: const CustomAppBar(),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ImageBackground(
@@ -55,9 +56,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                       width: double.infinity,
                       child: Visibility(
                         visible: !_inProgress,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                        replacement: const ProgressIndicatorWidget(),
                         child: ElevatedButton(
                           onPressed: () => onTapAddButton(context),
                           child: Padding(
