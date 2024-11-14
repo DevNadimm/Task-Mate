@@ -93,7 +93,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: primaryColor,
-        onPressed: () => _onTapBottomNavBar(context),
+        onPressed: () => _onTapFloatingActionButton(context),
         child: const Icon(
           Icons.add_circle_rounded,
           color: Colors.white,
@@ -116,7 +116,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
     );
   }
 
-  Future<void> _onTapBottomNavBar(BuildContext context) async {
+  Future<void> _onTapFloatingActionButton(BuildContext context) async {
     final shouldRefresh = await Navigator.push(
       context,
       MaterialPageRoute(
