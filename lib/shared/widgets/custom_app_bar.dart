@@ -42,8 +42,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     return AppBar(
       foregroundColor: foregroundColor,
       title: GestureDetector(
-        onTap: () =>
-            widget.isUpdateProfileScreen ? null : _onTapProfile(context),
+        onTap: () => widget.isUpdateProfileScreen ? null : _onTapProfile(context),
         child: Row(
           children: [
             CircleAvatar(
