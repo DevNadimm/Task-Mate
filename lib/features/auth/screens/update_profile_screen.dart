@@ -134,8 +134,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               backgroundImage: _selectedImage != null
                   ? FileImage(File(_selectedImage!.path))
                   : AuthController.userModel?.photo != null
-                      ? MemoryImage(base64Decode(AuthController.userModel!.photo!))
-                      : const AssetImage('assets/images/avatar.jpeg') as ImageProvider,
+                      ? MemoryImage(
+                          base64Decode(AuthController.userModel!.photo!))
+                      : const AssetImage('assets/images/avatar.jpeg')
+                          as ImageProvider,
               radius: 50,
             ),
           ),
@@ -158,16 +160,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         ],
       ),
     );
-  }
-
-  Future<void> _pickImage() async {
-    final ImagePicker imagePicker = ImagePicker();
-    XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        _selectedImage = image;
-      });
-    }
   }
 
   Widget _buildUpdateButton() {
@@ -197,12 +189,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     );
   }
 
-  void _onTapUpdateButton() {
-    if (_formKey.currentState!.validate()) {
-      _updateProfile();
-    }
-  }
-
   Future<void> _updateProfile() async {
     final controller = Get.find<UpdateProfileController>();
     final result = await controller.updateProfile(
@@ -219,6 +205,22 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       ToastMessage.successToast("Profile updated");
     } else {
       ToastMessage.errorToast(controller.errorMessage!);
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final ImagePicker imagePicker = ImagePicker();
+    XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _selectedImage = image;
+      });
+    }
+  }
+
+  void _onTapUpdateButton() {
+    if (_formKey.currentState!.validate()) {
+      _updateProfile();
     }
   }
 }
