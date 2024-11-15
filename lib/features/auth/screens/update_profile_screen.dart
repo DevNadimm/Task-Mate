@@ -206,13 +206,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Future<void> _updateProfile() async {
     final controller = Get.find<UpdateProfileController>();
     final result = await controller.updateProfile(
-        email: _emailTEController.text.trim(),
-        firstName: _firstNameTEController.text.trim(),
-        lastName: _lastNameTEController.text.trim(),
-        mobile: _mobileTEController.text.trim(),
-        password: _passwordTEController.text.trim(),
-        photo: AuthController.userModel?.photo,
-        selectedImage: _selectedImage);
+      email: _emailTEController.text.trim(),
+      firstName: _firstNameTEController.text.trim(),
+      lastName: _lastNameTEController.text.trim(),
+      mobile: _mobileTEController.text.trim(),
+      password: _passwordTEController.text.trim(),
+      photo: AuthController.userModel?.photo,
+      selectedImage: _selectedImage,
+    );
 
     if (result) {
       ToastMessage.successToast("Profile updated");
