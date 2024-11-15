@@ -17,54 +17,64 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
   final TextEditingController _titleTEController = TextEditingController();
   final TextEditingController _descriptionTEController = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey();
+  bool _shouldRefreshPrevPage = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ImageBackground(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 40),
-                  Text(
-                    'Add New Task',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                  const SizedBox(height: 25),
-                  _buildTextFields(),
-                  const SizedBox(height: 15),
-                  SizedBox(
-                    width: double.infinity,
-                    child: GetBuilder<AddNewTaskController>(
-                      builder: (controller) {
-                        return Visibility(
-                          visible: !controller.inProgress,
-                          replacement: const ProgressIndicatorWidget(),
-                          child: ElevatedButton(
-                            onPressed: () => onTapAddButton(context),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Text(
-                                "Add",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(color: Colors.white),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          return;
+        }
+        Navigator.pop(context, _shouldRefreshPrevPage);
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: const CustomAppBar(),
+        body: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: ImageBackground(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 40),
+                    Text(
+                      'Add New Task',
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                    const SizedBox(height: 25),
+                    _buildTextFields(),
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: double.infinity,
+                      child: GetBuilder<AddNewTaskController>(
+                        builder: (controller) {
+                          return Visibility(
+                            visible: !controller.inProgress,
+                            replacement: const ProgressIndicatorWidget(),
+                            child: ElevatedButton(
+                              onPressed: () => onTapAddButton(context),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Text(
+                                  "Add",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(color: Colors.white),
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -115,6 +125,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     );
 
     if (result) {
+      _shouldRefreshPrevPage = true;
       ToastMessage.successToast('Task added successfully!');
       _titleTEController.clear();
       _descriptionTEController.clear();
