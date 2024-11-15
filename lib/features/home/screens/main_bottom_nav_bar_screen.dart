@@ -12,7 +12,7 @@ class MainBottomNavBarScreen extends StatelessWidget {
   MainBottomNavBarScreen({super.key});
 
   final List<Widget> _screens = [
-    const NewTaskScreen(),
+    NewTaskScreen(),
     const CompletedTaskScreen(),
     const CancelledTaskScreen(),
     const ProgressTaskScreen(),

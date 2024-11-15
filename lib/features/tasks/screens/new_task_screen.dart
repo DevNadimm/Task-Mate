@@ -10,67 +10,48 @@ import 'package:task_mate/features/tasks/widgets/task_card.dart';
 import 'package:task_mate/features/tasks/widgets/task_summery_card.dart';
 import 'package:task_mate/features/tasks/screens/add_new_task_screen.dart';
 
-class NewTaskScreen extends StatefulWidget {
-  const NewTaskScreen({super.key});
-
-  @override
-  State<NewTaskScreen> createState() => _NewTaskScreenState();
-}
-
-class _NewTaskScreenState extends State<NewTaskScreen> {
-  bool isLoading = true;
+class NewTaskScreen extends StatelessWidget {
   final newTaskListController = NewTaskListController.instance;
   final taskStatusCountController = TaskStatusCountController.instance;
+  final RxBool isLoading = true.obs;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
-  }
-
-  Future<void> _fetchData() async {
-    isLoading = true;
-    setState(() {});
-    await Future.wait([_getTaskStatusCount(), _getNewTaskList()]);
-    isLoading = false;
-    setState(() {});
-  }
+  NewTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _fetchData();
+
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: _buildBody(),
+      body: Obx(() => isLoading.value
+          ? const ProgressIndicatorWidget()
+          : _buildBody()),
       floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
   Widget _buildBody() {
-    return Visibility(
-      visible: !isLoading,
-      replacement: const ProgressIndicatorWidget(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GetBuilder<TaskStatusCountController>(
         builder: (statusCountController) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: statusCountController.taskStatusCountList.isEmpty
-                ? const NoTaskWidget()
-                : SingleChildScrollView(
-                    child: GetBuilder<NewTaskListController>(
-                      builder: (taskListController) {
-                        return Column(
-                          children: [
-                            const SizedBox(height: 16),
-                            _buildSummary(),
-                            const SizedBox(height: 10),
-                            _buildTaskList(taskListController),
-                            const SizedBox(height: 16),
-                          ],
-                        );
-                      },
-                    ),
+          return statusCountController.taskStatusCountList.isEmpty
+              ? const NoTaskWidget()
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      _buildSummary(),
+                      const SizedBox(height: 10),
+                      GetBuilder<NewTaskListController>(
+                        builder: (taskListController) {
+                          return _buildTaskList(taskListController);
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                    ],
                   ),
-          );
+                );
         },
       ),
     );
@@ -124,15 +105,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
 
   Future<void> _onTapFloatingActionButton() async {
-    final shouldRefresh = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AddNewTaskScreen(),
-      ),
-    );
+    final shouldRefresh = await Get.to(() => const AddNewTaskScreen());
     if (shouldRefresh == true) {
       _fetchData();
     }
+  }
+
+  Future<void> _fetchData() async {
+    isLoading.value = true;
+    await Future.wait([_getTaskStatusCount(), _getNewTaskList()]);
+    isLoading.value = false;
   }
 
   Future<void> _getNewTaskList() async {
