@@ -6,22 +6,15 @@ import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/features/tasks/widgets/no_task_widget.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 
-class CompletedTaskScreen extends StatefulWidget {
-  const CompletedTaskScreen({super.key});
+class CompletedTaskScreen extends StatelessWidget {
+  final completedTaskListController = CompletedTaskListController.instance;
 
-  @override
-  State<CompletedTaskScreen> createState() => _CompletedTaskScreenState();
-}
-
-class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
-  @override
-  void initState() {
-    _getCompletedTaskList();
-    super.initState();
-  }
+  CompletedTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _getCompletedTaskList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GetBuilder<CompletedTaskListController>(
@@ -60,10 +53,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   }
 
   Future<void> _getCompletedTaskList() async {
-    final controller = CompletedTaskListController.instance;
-    final result = await controller.getCancelledTaskList();
+    final result = await completedTaskListController.getCancelledTaskList();
     if (!result) {
-      ToastMessage.errorToast(controller.errorMessage!);
+      ToastMessage.errorToast(completedTaskListController.errorMessage!);
     }
   }
 }
