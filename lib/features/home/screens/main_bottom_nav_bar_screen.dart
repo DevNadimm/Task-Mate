@@ -13,9 +13,9 @@ class MainBottomNavBarScreen extends StatelessWidget {
 
   final List<Widget> _screens = [
     NewTaskScreen(),
-    const CompletedTaskScreen(),
-    const CancelledTaskScreen(),
-    const ProgressTaskScreen(),
+    CompletedTaskScreen(),
+    CancelledTaskScreen(),
+    ProgressTaskScreen(),
   ];
 
   @override

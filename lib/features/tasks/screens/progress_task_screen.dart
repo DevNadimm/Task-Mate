@@ -6,22 +6,15 @@ import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/features/tasks/widgets/no_task_widget.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 
-class ProgressTaskScreen extends StatefulWidget {
-  const ProgressTaskScreen({super.key});
+class ProgressTaskScreen extends StatelessWidget {
+  final progressTaskListController = ProgressTaskListController.instance;
 
-  @override
-  State<ProgressTaskScreen> createState() => _ProgressTaskScreenState();
-}
-
-class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
-  @override
-  void initState() {
-    _getProgressTaskList();
-    super.initState();
-  }
+  ProgressTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _getProgressTaskList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GetBuilder<ProgressTaskListController>(
@@ -60,11 +53,10 @@ class _ProgressTaskScreenState extends State<ProgressTaskScreen> {
   }
 
   Future<void> _getProgressTaskList() async {
-    final controller = ProgressTaskListController.instance;
-    final result = await controller.getProgressTaskList();
+    final result = await progressTaskListController.getProgressTaskList();
 
     if (!result) {
-      ToastMessage.errorToast(controller.errorMessage!);
+      ToastMessage.errorToast(progressTaskListController.errorMessage!);
     }
   }
 }

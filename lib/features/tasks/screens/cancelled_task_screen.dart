@@ -6,22 +6,15 @@ import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/features/tasks/widgets/no_task_widget.dart';
 import 'package:task_mate/features/tasks/widgets/task_card.dart';
 
-class CancelledTaskScreen extends StatefulWidget {
-  const CancelledTaskScreen({super.key});
+class CancelledTaskScreen extends StatelessWidget {
+  final cancelledTaskListController = CancelledTaskListController.instance;
 
-  @override
-  State<CancelledTaskScreen> createState() => _CancelledTaskScreenState();
-}
-
-class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
-  @override
-  void initState() {
-    _getCancelledTaskList();
-    super.initState();
-  }
+  CancelledTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _getCancelledTaskList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GetBuilder<CancelledTaskListController>(
@@ -60,11 +53,10 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   }
 
   Future<void> _getCancelledTaskList() async {
-    final controller = CancelledTaskListController.instance;
-    final result = await controller.getCancelledTaskList();
+    final result = await cancelledTaskListController.getCancelledTaskList();
 
     if (!result) {
-      ToastMessage.errorToast(controller.errorMessage!);
+      ToastMessage.errorToast(cancelledTaskListController.errorMessage!);
     }
   }
 }
