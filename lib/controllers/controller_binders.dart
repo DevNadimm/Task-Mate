@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
 import 'package:task_mate/controllers/add_new_task_controller.dart';
 import 'package:task_mate/controllers/bottom_nav_controller.dart';
+import 'package:task_mate/controllers/cancelled_task_list_controller.dart';
+import 'package:task_mate/controllers/completed_task_list_controller.dart';
 import 'package:task_mate/controllers/new_task_list_controller.dart';
 import 'package:task_mate/controllers/pin_verification_controller.dart';
+import 'package:task_mate/controllers/progress_task_list_controller.dart';
 import 'package:task_mate/controllers/recover_verify_email_controller.dart';
 import 'package:task_mate/controllers/set_password_controller.dart';
 import 'package:task_mate/controllers/sign_in_controller.dart';
@@ -23,5 +26,8 @@ class ControllerBinders extends Bindings {
     Get.put(AddNewTaskController());
     Get.put(NewTaskListController());
     Get.put(TaskStatusCountController());
+    Get.put(ProgressTaskListController());
+    Get.put(CancelledTaskListController());
+    Get.put(CompletedTaskListController());
   }
 }
