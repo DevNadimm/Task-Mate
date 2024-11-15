@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:task_mate/core/network/network_caller.dart';
 import 'package:task_mate/core/network/network_response.dart';
@@ -8,7 +9,7 @@ import 'package:task_mate/core/utils/toast_message.dart';
 import 'package:task_mate/core/utils/urls.dart';
 import 'package:task_mate/models/task_model.dart';
 
-class TaskCard extends StatefulWidget {
+class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
     required this.task,
@@ -19,11 +20,6 @@ class TaskCard extends StatefulWidget {
   final VoidCallback refreshTaskList;
 
   @override
-  State<TaskCard> createState() => _TaskCardState();
-}
-
-class _TaskCardState extends State<TaskCard> {
-  @override
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
@@ -33,7 +29,7 @@ class _TaskCardState extends State<TaskCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.task.title ?? 'No Title',
+              task.title ?? 'No Title',
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -41,7 +37,7 @@ class _TaskCardState extends State<TaskCard> {
             ),
             const SizedBox(height: 5),
             ReadMoreText(
-              widget.task.description ?? 'No Description',
+              task.description ?? 'No Description',
               trimMode: TrimMode.Line,
               trimLines: 3,
               trimCollapsedText: ' See More',
@@ -55,14 +51,10 @@ class _TaskCardState extends State<TaskCard> {
             ),
             const SizedBox(height: 5),
             Text(
-              DateFormater.formatDate(widget.task.createdDate!),
+              DateFormater.formatDate(task.createdDate!),
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            _buildRowSection(
-              context: context,
-              refreshTaskList: widget.refreshTaskList,
-              task: widget.task,
-            ),
+            _buildRowSection(context),
           ],
         ),
       ),
@@ -102,9 +94,8 @@ class _TaskCardState extends State<TaskCard> {
                     ),
                     onTap: () {
                       _getUpdateTask(
-                        id: widget.task.id.toString(),
+                        id: task.id.toString(),
                         status: status,
-                        refreshTaskList: widget.refreshTaskList,
                       );
                     },
                   ),
@@ -115,9 +106,7 @@ class _TaskCardState extends State<TaskCard> {
           actionsPadding: const EdgeInsets.only(right: 12, bottom: 8),
           actions: [
             OutlinedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Get.back(),
               style: ElevatedButton.styleFrom(
                 side: const BorderSide(width: 1, color: Colors.black26),
               ),
@@ -132,10 +121,7 @@ class _TaskCardState extends State<TaskCard> {
     );
   }
 
-  Future<void> _getDeleteTask({
-    required String id,
-    required VoidCallback refreshTaskList,
-  }) async {
+  Future<void> _getDeleteTask(String id) async {
     final url = "${Urls.getDeleteTask}$id";
     NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
     if (networkResponse.isSuccess) {
@@ -151,14 +137,13 @@ class _TaskCardState extends State<TaskCard> {
   Future<void> _getUpdateTask({
     required String id,
     required String status,
-    required VoidCallback refreshTaskList,
   }) async {
     final url = "${Urls.getUpdateTaskStatus}$id/$status";
     NetworkResponse networkResponse = await NetworkCaller.getRequest(url);
     if (networkResponse.isSuccess) {
       ToastMessage.successToast("Status updated successfully");
       refreshTaskList();
-      Navigator.pop(context);
+      Get.back();
     } else {
       ToastMessage.errorToast(
         "Failed to update status: ${networkResponse.errorMessage}",
@@ -166,11 +151,7 @@ class _TaskCardState extends State<TaskCard> {
     }
   }
 
-  Widget _buildRowSection({
-    required BuildContext context,
-    required TaskModel task,
-    required VoidCallback refreshTaskList,
-  }) {
+  Widget _buildRowSection(BuildContext context) {
     return Row(
       children: [
         Chip(
@@ -200,12 +181,7 @@ class _TaskCardState extends State<TaskCard> {
           ),
         ),
         IconButton(
-          onPressed: () {
-            _getDeleteTask(
-              id: task.id.toString(),
-              refreshTaskList: refreshTaskList,
-            );
-          },
+          onPressed: () => _getDeleteTask(task.id.toString()),
           icon: const Icon(
             Icons.delete_sweep_outlined,
             color: Colors.red,
