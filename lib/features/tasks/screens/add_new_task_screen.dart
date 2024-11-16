@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_mate/controllers/add_new_task_controller.dart';
+import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
-import 'package:task_mate/shared/widgets/custom_app_bar.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
@@ -31,7 +31,22 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: const CustomAppBar(),
+        appBar: AppBar(
+          foregroundColor: foregroundColor,
+          backgroundColor: backgroundColor,
+          scrolledUnderElevation: 0,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Container(
+              height: 1.0,
+              color: Colors.grey.withOpacity(0.5),
+            ),
+          ),
+          title: Text(
+            "Add New Task",
+            style: Theme.of(context).textTheme.headlineSmall,
+          ),
+        ),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: ImageBackground(
@@ -41,12 +56,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40),
-                    Text(
-                      'Add New Task',
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 15),
                     _buildTextFields(),
                     const SizedBox(height: 15),
                     SizedBox(

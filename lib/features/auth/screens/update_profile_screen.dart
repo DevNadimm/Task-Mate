@@ -6,9 +6,10 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:task_mate/controllers/auth_controller.dart';
 import 'package:task_mate/controllers/update_profile_controller.dart';
+import 'package:task_mate/core/utils/colors.dart';
 import 'package:task_mate/core/utils/progress_indicator.dart';
 import 'package:task_mate/core/utils/toast_message.dart';
-import 'package:task_mate/shared/widgets/custom_app_bar.dart';
+import 'package:task_mate/features/auth/screens/sign_in_screen.dart';
 import 'package:task_mate/shared/widgets/image_background.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -44,7 +45,25 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(isUpdateProfileScreen: true),
+      appBar: AppBar(
+        foregroundColor: foregroundColor,
+        backgroundColor: backgroundColor,
+        scrolledUnderElevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1.0),
+          child: Container(
+            height: 1.0,
+            color: Colors.grey.withOpacity(0.5),
+          ),
+        ),
+        title: Text("Update Profile", style: Theme.of(context).textTheme.headlineSmall,),
+        actions: [
+          IconButton(
+            onPressed: () => _onTapLogOut(context),
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: ImageBackground(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -54,12 +73,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
-                  Text(
-                    'Update Profile',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 15),
                   _imagePickerContainer(context),
                   const SizedBox(height: 15),
                   _buildTextFormField(
@@ -222,5 +236,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (_formKey.currentState!.validate()) {
       _updateProfile();
     }
+  }
+
+  void _onTapLogOut(BuildContext context) {
+    AuthController.clearAccessToken();
+    ToastMessage.successToast('Sign out successful!');
+    Get.offAll(const SignInScreen());
   }
 }
